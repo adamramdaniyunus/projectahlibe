@@ -19,7 +19,7 @@ type DataItem = {
 
 
 
-export default function PostGrid({ search, data, postDataTwo, isLoading, loadingDataPostTwo, refetch }: { search: string, data: DataItem[], postDataTwo: DataItem[], isLoading: boolean, loadingDataPostTwo: boolean, refetch: () => void }) {
+export default function PostGrid({ search, data, postDataTwo, loadingDataPostTwo, refetch }: { search: string, data: DataItem[], postDataTwo: DataItem[], isLoading: boolean, loadingDataPostTwo: boolean, refetch: () => void }) {
 
     return (
         <div className={'flex flex-col mb-20'}>
@@ -29,10 +29,10 @@ export default function PostGrid({ search, data, postDataTwo, isLoading, loading
                         data.map((data: DataItem, i: number) => (
                             <PostBox key={i} data={data} refetch={refetch} />
                         ))
-                    ) : postDataTwo.length > 0 ? loadingDataPostTwo ? <SkeletonPost /> : postDataTwo?.map((data: DataItem, i: number) => (
+                    ) : postDataTwo?.map((data: DataItem, i: number) => (
                         <PostBox key={i} data={data} refetch={refetch} />
-                    )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>
-                ) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Postingan tidak ditemukan</h1>)
+                    ))
+                ) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>)
             }
         </div>
     );

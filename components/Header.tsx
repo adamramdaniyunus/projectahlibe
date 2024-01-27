@@ -104,7 +104,7 @@ export default function Header({ showTags, setShowTags, setSearchPost, search, r
                     <button onClick={handleClickShow}><SearchIcon /></button>
                     <button onClick={handleClickModal}><PostIcons /></button>
                     <Link href={`/profile/` + user?.email}><ProfileIcon /></Link>
-                    {showSearch && <input value={search} onChange={handleSearch} className={"absolute input w-[300px] left-1 -bottom-16"} placeholder={"Cari postingan"} autoFocus />}
+                    {showSearch && <input value={search} onChange={handleSearch} className={"absolute input w-[300px] left-1 -bottom-16"} placeholder={"Cari postingan"} />}
 
                 </nav>
                 <Link href="/" className={'font-bold uppercase'}>ahalibe</Link>

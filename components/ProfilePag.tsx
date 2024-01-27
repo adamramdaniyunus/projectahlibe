@@ -65,7 +65,7 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
     return (
         <div className="h-screen">
             <Header showTags={showTags} setShowTags={setShowTags} search={search} setSearchPost={setSearchPost as () => void} refetch={refetch} refetchDataTwo={refetchDataPostUser} data={postsData} />
-            <div className={'mt-20 flex gap-10 justify-center items-center md:items-start relative flex-col md:flex-row h-full overflow-auto md:overflow-hidden'}>
+            <div className={'mt-10 flex gap-10 justify-center items-center md:items-start relative flex-col md:flex-row h-full overflow-auto md:overflow-hidden'}>
                 <div className={`py-4 mt-[27rem] md:mt-0  md:w-1/2 md:flex justify-end h-full md:h-2/3`}>
                     <div className="shadow card">
                         <div className="card__img">
@@ -79,8 +79,8 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                         </div>
                         <div className="card__title w-full flex justify-center">
                             {loadingUserData ? <div className="w-[200px] bg-gray-200 h-4"></div> :
-                                <div className="w-full flex">
-                                    <input type="text" className="outline-none w-full text-center" value={userDta?.email} readOnly={true} />
+                                <div className="w-full flex justify-center">
+                                    {userDta?.email}
                                     {userDta?.email === session?.user?.email && <button className="absolute right-0 bottom-0" onClick={handleEditButton}>
                                         <Pencil />
                                     </button>}
@@ -90,7 +90,7 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                         <div className="card__subtitle flex relative">
                             {loadingUserData ? <div className="w-[100px] bg-gray-200 h-4"></div> :
                                 <div className="relative w-full flex">
-                                    <input type="text" className="outline-none w-full text-center" value={userDta?.name} readOnly={true} autoFocus />
+                                    <input type="text" className="outline-none w-full text-center" value={userDta?.name} readOnly={true} />
                                     {/* <button className="absolute right-0" onClick={handleEditButton}><Pencil /></button> */}
                                 </div>}{userDta?.verified && <span className="absolute right-3"><Verified /></span>}</div>
                         <div className="p-4 flex items-center justify-center">
