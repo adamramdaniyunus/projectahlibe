@@ -48,12 +48,12 @@ const PostBox: React.FC<PostToBoxPROPS> = ({ data, refetch }) => {
     const { email } = router.query
 
     const handleLike = async () => {
+        setLike(prev => !prev)
+        like ? setLiked(prev => prev - 1) : setLiked(prev => prev + 1)
         await axios.post("/api/like", {
             useremail: user?.email,
             postId: data._id
         })
-        setLike(prev => !prev)
-        like ? setLiked(prev => prev - 1) : setLiked(prev => prev + 1)
     }
 
     // handle delete post
