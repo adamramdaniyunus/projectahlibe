@@ -81,7 +81,9 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                             {loadingUserData ? <div className="w-[200px] bg-gray-200 h-4"></div> :
                                 <div className="w-full flex">
                                     <input type="text" className="outline-none w-full text-center" value={userDta?.email} readOnly={true} />
-                                    {userDta?.email === session?.user?.email}
+                                    {userDta?.email === session?.user?.email && <button onClick={handleEditButton}>
+                                        <Pencil />
+                                    </button>}
                                 </div>
                             }
                         </div>
