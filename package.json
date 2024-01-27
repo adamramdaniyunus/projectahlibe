@@ -1,0 +1,40 @@
+{
+  "name": "brawls.exe",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@auth/mongodb-adapter": "^2.0.13",
+    "@reduxjs/toolkit": "^2.0.1",
+    "@tanstack/react-query": "^5.17.15",
+    "@uploadthing/react": "^6.2.0",
+    "axios": "^1.6.5",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.1.0",
+    "next": "14.0.4",
+    "next-auth": "^4.24.5",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
+    "react-player": "^2.14.1",
+    "react-redux": "^9.1.0",
+    "swr": "^2.2.4",
+    "uploadthing": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  }
+}
