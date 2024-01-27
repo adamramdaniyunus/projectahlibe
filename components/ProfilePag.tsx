@@ -65,7 +65,7 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
     return (
         <div className="h-screen">
             <Header showTags={showTags} setShowTags={setShowTags} search={search} setSearchPost={setSearchPost as () => void} refetch={refetch} refetchDataTwo={refetchDataPostUser} data={postsData} />
-            <div className={'mt-10 flex gap-10 justify-center items-center md:items-start relative flex-col md:flex-row h-full overflow-auto md:overflow-hidden'}>
+            <div className={'mt-10 md:mt-20 flex gap-10 justify-center items-center md:items-start relative flex-col md:flex-row h-full overflow-auto md:overflow-hidden'}>
                 <div className={`py-4 mt-[27rem] md:mt-0  md:w-1/2 md:flex justify-end h-full md:h-2/3`}>
                     <div className="shadow card">
                         <div className="card__img">
