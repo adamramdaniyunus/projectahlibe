@@ -2,6 +2,7 @@ import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import axios from 'axios'
 import toast from "react-hot-toast";
+import Image from "next/image"
 
 interface ModalProps {
     handleModal: () => void;
@@ -69,7 +70,7 @@ const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta 
 
                         <form className={'w-full'} onSubmit={addPostHandler}>
                             <div className={'flex gap-2 border-b-2 py-1'}>
-                                <img src={user?.image || ""} alt="" className={'rounded-full w-6 h-6'} />
+                                <Image src={user?.image || ""} width={0} height={0} loader={() => user?.image || ""} alt="" className={'rounded-full w-6 h-6'} />
                                 <p className={'text-gray-400 font-semibold'}>{user?.name}</p>
                             </div>
                             <textarea

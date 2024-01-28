@@ -5,6 +5,7 @@ import { UploadButton } from "@uploadthing/react";
 import axios from 'axios'
 import { OurFileRouter } from "@/server/uploadthing";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 interface ModalProps {
     handleModal: () => void;
@@ -126,7 +127,7 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
 
                         <form className={'w-full'} onSubmit={addPostHandler}>
                             <div className={'flex gap-2 border-b-2 py-1'}>
-                                <img src={user?.image || ""} alt="" className={'rounded-full w-6 h-6'} />
+                                <Image src={user?.image || ""} alt="profile" loader={() => user?.image || ""} width={0} height={0} className={'rounded-full w-6 h-6'} />
                                 <p className={'text-gray-400 font-semibold'}>{user?.name}</p>
                             </div>
                             <textarea

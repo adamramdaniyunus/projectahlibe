@@ -5,6 +5,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCommentPost } from "@/services/comment";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 // types
 interface CommentBoxProps {
@@ -201,7 +202,7 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
                         <div key={i} className={'flex flex-col gap-2 mt-3  '}>
                             <div className="flex gap-2 relative p-4 border-b-2">
                                 <div className={'items-center'}>
-                                    <img src={comment?.user?.image || ""} alt="profile" className={'h-6 w-6 mt-1 rounded-full'} />
+                                    <Image src={comment?.user?.image || ""} alt="profile" height={0} width={0} loader={() => comment?.user?.image || ""} className={'h-6 w-6 mt-1 rounded-full'} />
                                 </div>
                                 <div className={'flex flex-col'}>
                                     <p className={'text-gray-600 text-sm font-semibold flex items-center gap-4'}>{comment.user?.name} <span
@@ -217,7 +218,7 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
                                         <div key={j} className="flex border-l-2 flex-col gap-2 ml-10 p-4 ">
                                             <div className="flex gap-2 p-4 relative border-b-2">
                                                 <div className={'items-center'}>
-                                                    <img src={replyComment?.user?.image || ""} alt="profile" className={'h-6 w-6 mt-1 rounded-full'} />
+                                                    <Image src={replyComment?.user?.image || ""} alt="profile" height={0} width={0} loader={() => replyComment?.user?.image || ""} className={'h-6 w-6 mt-1 rounded-full'} />
                                                 </div>
                                                 <div className={'flex flex-col'}>
                                                     <p className={'text-gray-600 text-sm font-semibold flex items-center gap-4'}>{replyComment.user?.name}  <span
