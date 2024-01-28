@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllCommentPost } from "@/services/comment";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import { useSelector } from "react-redux";
 
 // types
 interface CommentBoxProps {
@@ -99,12 +100,12 @@ const HighlightUsername = ({ text, username }: { text: any, username: any }) => 
 
 
 const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, comments, refetch }) => {
-    const { data: session } = useSession()
-    const user = session?.user || null
+    const { userInfo } = useSelector((state: any) => state.user)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
     const [desc, setDesc] = useState<string>('')
     const [toUser, setReplyOnUser] = useState('')
     const [userId, setUserId] = useState('')
+
     useEffect(() => {
         // Focus on the textarea element when the value is updated
         if (textareaRef.current) {
@@ -135,7 +136,7 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
 
         try {
             await axios.post('/api/comment?postId=' + data._id, {
-                useremail: user?.email,
+                useremail: userInfo?.user.email,
                 toUser: toUser,
                 userId: userId,
                 desc

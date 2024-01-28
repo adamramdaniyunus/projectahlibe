@@ -11,15 +11,19 @@ import { getUser } from "@/services/user";
 import Pencil from "./icon/Pencil";
 import ModalProfile from "./modal/ModalProfile";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/pages/store/actions/useraction";
+import toast from "react-hot-toast";
 
 export default function ProfilePage({ nameTags }: { nameTags: any }) {
     const [search, setSearchPost] = useState('');
     const router = useRouter()
     const { email }: any = router.query
     const [isModal, setShowModal] = useState(false)
-    const { data: session } = useSession()
+    const { userInfo } = useSelector((state: any) => state.user)
     const background = "https://utfs.io/f/59381309-e7e4-439f-81ed-f2a170446a56-m15jgy.png"
-
+    const [showTags, setShowTags] = useState(false)
+    const dispatch: any = useDispatch()
 
     // get data user
     const {
@@ -52,9 +56,11 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
         queryKey: ["postuser", email]
     });
 
-
-
-    const [showTags, setShowTags] = useState(false)
+    // logout function
+    const handleLogout = async () => {
+        dispatch(logout())
+        await signOut()
+    }
     return (
         <div>
             <Header showTags={showTags} setShowTags={setShowTags} search={search} setSearchPost={setSearchPost as () => void} refetch={() => { }} refetchDataTwo={refetchDataPostUser} data={[]} />
@@ -62,19 +68,19 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                 <div className={`py-4 md:mt-0 md:w-1/2 md:flex justify-end h-full md:h-2/3`}>
                     <div className="shadow card">
                         <div className="card__img">
-                            <Image className="rounded-t-xl" loader={() => background} src={background} height={500} width={500} alt="background" />
+                            <Image className="rounded-t-xl" src={background} height={500} width={500} alt="background" />
                         </div>
                         <div className="card__avatar">
                             {loadingUserData ? <div className="rounded-full w-[100px] h-[100px] bg-gray-400"></div>
                                 :
-                                <Image loader={() => userDta?.image} src={userDta?.image ?? ""} alt="profile" height={0} width={0} />
+                                <Image loader={() => userDta?.image} src={userDta?.image} alt="profile" height={0} width={0} />
                             }
                         </div>
                         <div className="card__title w-full flex justify-center">
                             {loadingUserData ? <div className="w-[200px] bg-gray-200 h-4"></div> :
                                 <div className="w-full flex justify-center">
                                     {userDta?.email}
-                                    {userDta?.email === session?.user?.email && <button className="absolute right-2 bottom-2" onClick={handleEditButton}>
+                                    {userDta?.email === userInfo?.user.email && <button className="absolute right-2 bottom-2" onClick={handleEditButton}>
                                         <Pencil />
                                     </button>}
                                 </div>
@@ -89,8 +95,8 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                         <div className="p-4 flex items-center justify-center">
                             <p className="text-gray-600 text-[13px]">{userDta?.desc}</p>
                         </div>
-                        {userDta?.email === session?.user?.email && <div>
-                            <button className="card__btn" onClick={() => signOut()}>Logout</button>
+                        {userDta?.email === userInfo?.user.email && <div>
+                            <button type="button" className="card__btn" onClick={handleLogout}>Logout</button>
                         </div>}
 
                     </div>
