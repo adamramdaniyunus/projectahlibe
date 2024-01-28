@@ -36,7 +36,7 @@ export default function PostGrid({ search, data, postDataTwo, fetchingDataUser, 
     if (postUser?.length) {
         return (
             <div>
-                {loadingDataPostUser ? <SkeletonPost /> : postUser.length > 0 ? postUser?.map((data: DataItem, i: number) => (
+                {loadingDataPostUser ? <SkeletonPost /> : postUser?.length > 0 ? postUser?.map((data: DataItem, i: number) => (
                     <PostBox key={i} data={data} refetch={refetch} />
                 )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>}
             </div>
