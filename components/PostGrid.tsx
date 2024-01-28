@@ -33,15 +33,15 @@ interface GridProps {
 
 
 export default function PostGrid({ search, data, postDataTwo, fetchingDataUser, loadingDataPostTwo, loadingDataPostUser, isLoading, postUser, fetchingDataTwo, refetch }: GridProps) {
-    // if (postUser?.length > 0) {
-    //     return (
-    //         <div>
-    //             {loadingDataPostUser ? <SkeletonPost /> : postUser?.length > 0 ? postUser?.map((data: DataItem, i: number) => (
-    //                 <PostBox key={i} data={data} refetch={refetch} />
-    //             )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>}
-    //         </div>
-    //     )
-    // }
+    if (postUser?.length > 0) {
+        return (
+            <div>
+                {loadingDataPostUser ? <SkeletonPost /> : postUser?.length > 0 ? postUser?.map((data: DataItem, i: number) => (
+                    <PostBox key={i} data={data} refetch={refetch} />
+                )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>}
+            </div>
+        )
+    }
 
     if (search?.length > 0) {
         return (
@@ -55,7 +55,7 @@ export default function PostGrid({ search, data, postDataTwo, fetchingDataUser, 
 
     return (
         <div className={'flex flex-col mb-20'}>
-            {loadingDataPostTwo || fetchingDataTwo ? <SkeletonPost /> : (
+            {loadingDataPostTwo ? <SkeletonPost /> : (
                 postDataTwo?.length > 0 ? (
                     postDataTwo?.map((data: DataItem, i: number) => (
                         <PostBox key={i} data={data} refetch={refetch} />

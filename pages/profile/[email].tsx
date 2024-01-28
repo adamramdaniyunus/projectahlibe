@@ -2,8 +2,9 @@ import ProfilePage from '@/components/ProfilePag'
 import React from 'react'
 
 const ProfileEmail = () => {
+
     return (
-        <div>
+        <div className="h-screen">
             <ProfilePage nameTags={""} />
         </div>
     )

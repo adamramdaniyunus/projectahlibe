@@ -5,10 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Verified from "./icon/Verified";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { getUser } from "@/services/user";
 import Pencil from "./icon/Pencil";
 import ModalProfile from "./modal/ModalProfile";
+import Image from "next/image";
 
 export default function ProfilePage({ nameTags }: { nameTags: any }) {
     const [search, setSearchPost] = useState('');
@@ -16,6 +18,7 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
     const { email }: any = router.query
     const [isModal, setShowModal] = useState(false)
     const { data: session } = useSession()
+    const background = "https://utfs.io/f/59381309-e7e4-439f-81ed-f2a170446a56-m15jgy.png"
 
 
     // get data user
@@ -52,21 +55,19 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
 
 
     const [showTags, setShowTags] = useState(false)
-
-
     return (
-        <div className="h-screen">
+        <div>
             <Header showTags={showTags} setShowTags={setShowTags} search={search} setSearchPost={setSearchPost as () => void} refetch={() => { }} refetchDataTwo={refetchDataPostUser} data={[]} />
-            <div className={'mt-10 md:mt-20 flex gap-10 justify-center items-center md:items-start relative flex-col md:flex-row h-full overflow-auto md:overflow-hidden'}>
-                <div className={`py-4 mt-[27rem] md:mt-0  md:w-1/2 md:flex justify-end h-full md:h-2/3`}>
+            <div className={'flex md:gap-10 gap-2 mt-20 h-full justify-center items-center md:items-start relative flex-col md:flex-row overflow-auto md:overflow-hidden'}>
+                <div className={`py-4 md:mt-0 md:w-1/2 md:flex justify-end h-full md:h-2/3`}>
                     <div className="shadow card">
                         <div className="card__img">
-                            <img className="rounded-t-xl" src={userDta?.background || "/images/background.png"} alt="" />
+                            <Image className="rounded-t-xl" loader={() => background} src={background} height={500} width={500} alt="background" />
                         </div>
                         <div className="card__avatar">
                             {loadingUserData ? <div className="rounded-full w-[100px] h-[100px] bg-gray-400"></div>
                                 :
-                                <img src={userDta?.image ?? ""} alt="" />
+                                <Image loader={() => userDta?.image} src={userDta?.image ?? ""} alt="profile" height={0} width={0} />
                             }
                         </div>
                         <div className="card__title w-full flex justify-center">
@@ -88,13 +89,17 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                         <div className="p-4 flex items-center justify-center">
                             <p className="text-gray-600 text-[13px]">{userDta?.desc}</p>
                         </div>
+                        {userDta?.email === session?.user?.email && <div>
+                            <button className="card__btn" onClick={() => signOut()}>Logout</button>
+                        </div>}
+
                     </div>
                 </div>
 
                 {isModal && <ModalProfile handleModal={handleEditButton} refetchUser={refetchUserData} userDta={userDta} />}
                 <div className={'w-auto md:w-full h-full md:overflow-auto mb-20'}>
                     {/* <SkeletonPost /> */}
-                    <PostGrid data={[]} search={search} fetchingDataUser={fetchingDataUser} fetchingDataTwo={false} isLoading={false} loadingDataPostTwo={loadingDataPostUser} loadingDataPostUser={loadingDataPostUser} refetch={refetchDataPostUser} postUser={postUser} postDataTwo={postUser} />
+                    <PostGrid data={[]} search={search} fetchingDataUser={fetchingDataUser} fetchingDataTwo={false} isLoading={false} loadingDataPostTwo={loadingDataPostUser} loadingDataPostUser={loadingDataPostUser} refetch={refetchDataPostUser} postUser={postUser} postDataTwo={[]} />
                 </div>
             </div>
         </div>

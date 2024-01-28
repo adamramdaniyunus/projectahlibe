@@ -1,6 +1,6 @@
 import ReactPlayer from "react-player";
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import ThumbIcon from "@/components/icon/ThumbIcon";
 import CommentIcon from "@/components/icon/CommentIcon";
 import ShareIcon from "@/components/icon/ShareIcon";
@@ -11,6 +11,7 @@ import { getAllCommentPost } from "@/services/comment";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import ModalConfirm from "./modal/ModalConfirm";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 // type
@@ -113,11 +114,11 @@ const PostBox: React.FC<PostToBoxPROPS> = ({ data, refetch }) => {
 
 
     return (
-        <div className={'flex p-4 md:px-6 prx-1 gap-2 w-full flex-col'}>
-            <div className={'border-y-2 p-2 md:w-[550px] w-[350px] flex flex-col gap-2'}>
+        <div className={'flex p-4 md:px-6 px-1 gap-2 w-full flex-col md:mb-0'}>
+            <div className={'border-y-2 p-2 md:w-[550px] w-[350px] flex flex-col md:mb-0 gap-2'}>
                 <div className="flex justify-between">
                     <Link href={'/profile/' + data?.user.email} className={'flex gap-2 items-center'}>
-                        <img src={data?.user.image} alt="profile" className={'w-6 rounded-lg'} />
+                        <Image src={data?.user?.image} loader={() => data?.user.image} alt="profile" width={0} height={0} className="w-6 rounded-lg" />
                         <p className="text-gray-600 font-semibold">{data?.user.name}</p>
                     </Link>
 
@@ -145,7 +146,13 @@ const PostBox: React.FC<PostToBoxPROPS> = ({ data, refetch }) => {
                     </div>}
 
                     {data?.image && <div>
-                        <img src={data.image} alt="" className="w-full h-auto" />
+                        {/* <img src={data.image} alt="" className="w-full h-auto" /> */}
+                        <Image
+                            src={data?.image}
+                            width={600}
+                            height={600}
+                            alt="Postingan"
+                        />
                     </div>}
                 </div>
                 <div className={'flex mt-1 flex-wrap gap-2 items-center'}>
@@ -161,13 +168,19 @@ const PostBox: React.FC<PostToBoxPROPS> = ({ data, refetch }) => {
                         </svg>
                     </button> : <div></div>}
                     <div className={'flex gap-1'}>
-                        <button onClick={handleLike} className={`flex gap-1 items-center ${like ? "text-blue-600" : ""} active:scale-90 `}>{liked}{like ? <ThumbIcon isLiked={true} /> : <ThumbIcon isLiked={false} />}</button>
-                        <button onClick={handleShowBar} className={'flex gap-1 items-center active:scale-90'}>
-                            {isLoading ? <p>
-                                Loading...
-                            </p> : postComments?.length}
-                            <CommentIcon /></button>
-                        <button><ShareIcon /></button>
+                        {session?.user ? (
+                            <div className="flex gap-1">
+                                <button onClick={handleLike} className={`flex gap-1 items-center ${like ? "text-blue-600" : ""} active:scale-90 `}>{liked}{like ? <ThumbIcon isLiked={true} /> : <ThumbIcon isLiked={false} />}</button>
+                                <button onClick={handleShowBar} className={'flex gap-1 items-center active:scale-90'}>
+                                    {isLoading ? <p>
+                                        Loading...
+                                    </p> : postComments?.length}
+                                    <CommentIcon /></button>
+                                <button><ShareIcon /></button>
+                            </div>
+                        ) : (
+                            <button onClick={() => signIn('google')} className={'button text-black'}>Login with Google</button>
+                        )}
 
                     </div>
                 </div>

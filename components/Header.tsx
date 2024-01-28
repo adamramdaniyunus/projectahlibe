@@ -4,7 +4,7 @@ import PostIcons from "@/components/icon/PostIcons";
 import SearchIcon from "@/components/icon/SearchIcon";
 import { useState, useEffect, useRef, MouseEvent, SetStateAction } from "react";
 import Modal from "@/components/modal/Modal";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 type Search = {
     setSearchPost: (e: string) => void;
@@ -31,8 +31,8 @@ type DataItem = {
 
 export default function Header({ showTags, setShowTags, setSearchPost, search, refetch, refetchDataTwo, }: Search) {
 
-    const { data: response } = useSession();
-    const user = response?.user
+    const { data: session } = useSession();
+    const user = session?.user
 
     // state
     const [showSearch, setShowSearch] = useState(false)
@@ -103,7 +103,9 @@ export default function Header({ showTags, setShowTags, setSearchPost, search, r
                     </button>
                     <button onClick={handleClickShow}><SearchIcon /></button>
                     <button onClick={handleClickModal}><PostIcons /></button>
-                    <Link href={`/profile/` + user?.email}><ProfileIcon /></Link>
+                    {user ? <Link href={`/profile/` + user?.email}><ProfileIcon /></Link> : (
+                        <button onClick={() => signIn('google')}><ProfileIcon /></button>
+                    )}
                     {showSearch && <input value={search} onChange={handleSearch} className={"absolute input w-[300px] left-1 -bottom-16"} placeholder={"Cari postingan"} />}
 
                 </nav>
