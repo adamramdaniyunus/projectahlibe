@@ -4,7 +4,7 @@ import React from 'react'
 const ProfileEmail = () => {
     return (
         <div>
-            <ProfilePage nameTags={[]} />
+            <ProfilePage nameTags={""} />
         </div>
     )
 }
