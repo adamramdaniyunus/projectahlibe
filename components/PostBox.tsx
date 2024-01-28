@@ -114,7 +114,7 @@ const PostBox: React.FC<PostToBoxPROPS> = ({ data, refetch }) => {
 
 
     return (
-        <div className={'flex p-4 md:px-6 px-1 gap-2 w-full flex-col md:mb-0'}>
+        <div className={'flex p-4 md:px-6 px-1 gap-2 w-full flex-col md:mb-20'}>
             <div className={'border-y-2 p-2 md:w-[550px] w-[350px] flex flex-col md:mb-0 gap-2'}>
                 <div className="flex justify-between">
                     <Link href={'/profile/' + data?.user.email} className={'flex gap-2 items-center'}>
