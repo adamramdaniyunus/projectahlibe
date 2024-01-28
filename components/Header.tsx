@@ -102,7 +102,7 @@ export default function Header({ showTags, setShowTags, setSearchPost, search, r
                         </svg>
                     </button>
                     <button onClick={handleClickShow}><SearchIcon /></button>
-                    <button onClick={handleClickModal}><PostIcons /></button>
+                    {user && <button onClick={handleClickModal}><PostIcons /></button>}
                     {user ? <Link href={`/profile/` + user?.email}><ProfileIcon /></Link> : (
                         <button onClick={() => signIn('google')}><ProfileIcon /></button>
                     )}
