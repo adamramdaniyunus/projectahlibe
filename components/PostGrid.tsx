@@ -33,7 +33,7 @@ interface GridProps {
 
 
 export default function PostGrid({ search, data, postDataTwo, fetchingDataUser, loadingDataPostTwo, loadingDataPostUser, isLoading, postUser, fetchingDataTwo, refetch }: GridProps) {
-    if (postUser.length) {
+    if (postUser?.length) {
         return (
             <div>
                 {loadingDataPostUser ? <SkeletonPost /> : postUser.length > 0 ? postUser?.map((data: DataItem, i: number) => (
@@ -44,7 +44,7 @@ export default function PostGrid({ search, data, postDataTwo, fetchingDataUser, 
     }
 
 
-    if (search.length) {
+    if (search?.length) {
         return (
             <div>
                 {isLoading ? <SkeletonPost /> : data?.length > 0 ? data.map((data: DataItem, i: number) => (
