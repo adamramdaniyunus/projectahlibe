@@ -47,7 +47,7 @@ export default function PostGrid({ search, data, postDataTwo, loading, fetchingD
     if (postUser?.length > 0) {
         return (
             <div>
-                {loadingDataPostUser ? <SkeletonPost /> : postUser?.length > 0 ? postUser?.map((data: DataItem, i: number) => (
+                {postUser?.length > 0 ? loadingDataPostUser ? <SkeletonPost /> : postUser?.map((data: DataItem, i: number) => (
                     <PostBox key={i} data={data} refetch={refetch} />
                 )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>}
             </div>
@@ -59,7 +59,7 @@ export default function PostGrid({ search, data, postDataTwo, loading, fetchingD
     if (search?.length > 0) {
         return (
             <div>
-                {isLoading || loading ? <SkeletonPost /> : data?.length > 0 ? data?.map((data: DataItem, i: number) => (
+                {data?.length > 0 ? isLoading ? <SkeletonPost /> : data?.map((data: DataItem, i: number) => (
                     <PostBox key={i} data={data} refetch={refetch} />
                 )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>}
             </div>
@@ -69,13 +69,11 @@ export default function PostGrid({ search, data, postDataTwo, loading, fetchingD
 
     return (
         <div className={'flex flex-col mb-20'}>
-            {loadingDataPostTwo ? <SkeletonPost /> : (
-                postDataTwo?.length > 0 ? (
-                    postDataTwo?.map((data: DataItem, i: number) => (
-                        <PostBox key={i} data={data} refetch={refetch} />
-                    ))
-                ) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>)
-            }
+            {(postDataTwo?.length > 0 ? loadingDataPostTwo ? <SkeletonPost /> : (
+                postDataTwo?.map((data: DataItem, i: number) => (
+                    <PostBox key={i} data={data} refetch={refetch} />
+                ))
+            ) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>)}
         </div>
     );
 }
