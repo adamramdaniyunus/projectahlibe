@@ -106,7 +106,7 @@ export default function Header({ showTags, setShowTags, setSearchPost, search, r
                     {user ? <Link href={`/profile/` + user?.email}><ProfileIcon /></Link> : (
                         <button onClick={() => signIn('google')}><ProfileIcon /></button>
                     )}
-                    {showSearch && <input value={search} onChange={handleSearch} className={"absolute input w-[300px] left-1 -bottom-16"} placeholder={"Cari postingan"} />}
+                    {showSearch && <input value={search} onChange={handleSearch} className={"absolute input w-[300px] left-1 -bottom-16"} placeholder={"Cari postingan"} autoFocus />}
 
                 </nav>
                 <Link href="/" className={'font-bold uppercase'}>ahalibe</Link>
