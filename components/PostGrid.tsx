@@ -1,6 +1,5 @@
 import PostBox from "@/components/PostBox";
 import SkeletonPost from "./SkeletonPost";
-import { useEffect } from "react";
 
 type DataItem = {
     _id: string;
@@ -18,11 +17,23 @@ type DataItem = {
     createdAt: string;
 }
 
+interface GridProps {
+    isLoading: boolean;
+    search: string;
+    postDataTwo: DataItem[];
+    loadingDataPostTwo: boolean;
+    postUser: DataItem[];
+    refetch: () => void;
+    loadingDataPostUser: boolean;
+    data: DataItem[];
+    fetchingDataTwo: boolean;
+    fetchingDataUser: boolean;
+}
 
 
-export default function PostGrid({ search, data, postDataTwo, loadingDataPostTwo, loadingDataPostUser, postUser, refetch }: { search: string, data: DataItem[], postDataTwo: DataItem[], postUser: DataItem[], isLoading: boolean, loadingDataPostTwo: boolean, loadingDataPostUser: boolean, refetch: () => void }) {
 
-    if (postUser) {
+export default function PostGrid({ search, data, postDataTwo, fetchingDataUser, loadingDataPostTwo, loadingDataPostUser, isLoading, postUser, fetchingDataTwo, refetch }: GridProps) {
+    if (postUser.length) {
         return (
             <div>
                 {loadingDataPostUser ? <SkeletonPost /> : postUser.length > 0 ? postUser?.map((data: DataItem, i: number) => (
@@ -32,15 +43,22 @@ export default function PostGrid({ search, data, postDataTwo, loadingDataPostTwo
         )
     }
 
+
+    if (search.length) {
+        return (
+            <div>
+                {isLoading ? <SkeletonPost /> : data?.length > 0 ? data.map((data: DataItem, i: number) => (
+                    <PostBox key={i} data={data} refetch={refetch} />
+                )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>}
+            </div>
+        )
+    }
+
     return (
         <div className={'flex flex-col mb-20'}>
-            {loadingDataPostTwo ? <SkeletonPost /> : (
+            {loadingDataPostTwo || fetchingDataTwo ? <SkeletonPost /> : (
                 postDataTwo?.length > 0 ? (
-                    search.length > 0 ? (
-                        data.map((data: DataItem, i: number) => (
-                            <PostBox key={i} data={data} refetch={refetch} />
-                        ))
-                    ) : postDataTwo?.map((data: DataItem, i: number) => (
+                    postDataTwo?.map((data: DataItem, i: number) => (
                         <PostBox key={i} data={data} refetch={refetch} />
                     ))
                 ) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>)

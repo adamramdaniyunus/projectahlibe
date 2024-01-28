@@ -22,11 +22,13 @@ export default function HomePage({ nameTags = [] }: { nameTags: any }) {
     const {
         data: postsDataTwo,
         refetch: refetchDataTwo,
+        isFetching: fetchingDataTwo,
         isLoading: loadingDataPostTwo,
     } = useQuery({
         queryFn: () => getAllPostsNoSearch(nameTags),
         queryKey: ["postsnosearch"]
     });
+
 
     useEffect(() => {
         // Memanggil refetchDataTwo hanya sekali saat nameTags berubah
@@ -47,7 +49,7 @@ export default function HomePage({ nameTags = [] }: { nameTags: any }) {
                 </div>
                 <div className={'overflow-auto w-auto md:w-full h-full'}>
                     {/* <SkeletonPost /> */}
-                    <PostGrid data={postsData} search={search} isLoading={isLoading} loadingDataPostTwo={loadingDataPostTwo} refetch={refetch} postDataTwo={postsDataTwo} />
+                    <PostGrid data={postsData} fetchingDataTwo={fetchingDataTwo} search={search} isLoading={isLoading} loadingDataPostUser={false} postUser={[]} loadingDataPostTwo={loadingDataPostTwo} refetch={refetch} postDataTwo={postsDataTwo} />
                 </div>
             </div>
         </div>
