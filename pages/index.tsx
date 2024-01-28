@@ -1,7 +1,7 @@
 import HomePage from "@/components/HomePage";
 import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
-import { userActions } from "./store/reducers/userReducers";
+import { userActions } from "../store/reducers/userReducers";
 
 
 export default function Home() {

@@ -12,7 +12,7 @@ import Pencil from "./icon/Pencil";
 import ModalProfile from "./modal/ModalProfile";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/pages/store/actions/useraction";
+import { logout } from "@/store/actions/useraction";
 import toast from "react-hot-toast";
 
 export default function ProfilePage({ nameTags }: { nameTags: any }) {
