@@ -1,5 +1,6 @@
 import PostBox from "@/components/PostBox";
 import SkeletonPost from "./SkeletonPost";
+import { MoonLoader } from 'react-spinners'
 
 type DataItem = {
     _id: string;
@@ -28,11 +29,21 @@ interface GridProps {
     data: DataItem[];
     fetchingDataTwo: boolean;
     fetchingDataUser: boolean;
+    loading: boolean
 }
 
 
 
-export default function PostGrid({ search, data, postDataTwo, fetchingDataUser, loadingDataPostTwo, loadingDataPostUser, isLoading, postUser, fetchingDataTwo, refetch }: GridProps) {
+export default function PostGrid({ search, data, postDataTwo, loading, fetchingDataUser, loadingDataPostTwo, loadingDataPostUser, isLoading, postUser, fetchingDataTwo, refetch }: GridProps) {
+    // went data loading
+    if (loading) {
+        return (
+            <div className="h-screen flex justify-center">
+                <MoonLoader color="#36d7b7" size={70} className="mt-10 md:mr-80 mr-0" />
+            </div>
+        )
+    }
+
     if (postUser?.length > 0) {
         return (
             <div>
@@ -43,15 +54,18 @@ export default function PostGrid({ search, data, postDataTwo, fetchingDataUser, 
         )
     }
 
+
+
     if (search?.length > 0) {
         return (
             <div>
-                {isLoading ? <SkeletonPost /> : data?.length > 0 ? data?.map((data: DataItem, i: number) => (
+                {isLoading || loading ? <SkeletonPost /> : data?.length > 0 ? data?.map((data: DataItem, i: number) => (
                     <PostBox key={i} data={data} refetch={refetch} />
                 )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>}
             </div>
         )
     }
+
 
     return (
         <div className={'flex flex-col mb-20'}>
