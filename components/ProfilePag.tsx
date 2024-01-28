@@ -83,9 +83,9 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                         <div className="card__subtitle flex relative">
                             {loadingUserData ? <div className="w-[100px] bg-gray-200 h-4"></div> :
                                 <div className="relative w-full flex">
-                                    <input type="text" className="outline-none w-full text-center" value={userDta?.name} readOnly={true} />
-                                    {/* <button className="absolute right-0" onClick={handleEditButton}><Pencil /></button> */}
-                                </div>}{userDta?.verified && <span className="absolute right-3"><Verified /></span>}</div>
+                                    {userDta?.name}{userDta?.verified && <span className="absolute -right-4"><Verified /></span>}
+                                </div>}
+                        </div>
                         <div className="p-4 flex items-center justify-center">
                             <p className="text-gray-600 text-[13px]">{userDta?.desc}</p>
                         </div>
