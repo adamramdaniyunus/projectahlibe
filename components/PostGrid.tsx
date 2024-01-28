@@ -43,6 +43,10 @@ export default function PostGrid({ search, data, postDataTwo, fetchingDataUser, 
         )
     }
 
+    if (!postUser || !search) {
+        return
+    }
+
 
     if (search?.length) {
         return (
