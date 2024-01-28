@@ -26,13 +26,13 @@ export default function HomePage({ nameTags = [] }: { nameTags: any }) {
         isFetching: fetchingDataTwo,
         isLoading: loadingDataPostTwo,
     } = useQuery({
-        queryFn: () => getAllPostsNoSearch(tags),
+        queryFn: () => getAllPostsNoSearch(nameTags),
         queryKey: ["postsnosearch"]
     });
 
     useEffect(() => {
         // Memanggil refetchDataTwo hanya sekali saat nameTags berubah
-        if (tags || tags === '') {
+        if (nameTags) {
             const fetchingdata = async () => {
                 setLoading(true);
                 await refetchDataTwo();
@@ -41,7 +41,7 @@ export default function HomePage({ nameTags = [] }: { nameTags: any }) {
 
             fetchingdata()
         }
-    }, [tags, refetchDataTwo, setLoading]);
+    }, [nameTags, refetchDataTwo, setLoading]);
 
     const [showTags, setShowTags] = useState(false)
 
