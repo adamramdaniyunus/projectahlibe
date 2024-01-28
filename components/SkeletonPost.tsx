@@ -21,7 +21,7 @@ const SkeletonPost = () => {
                     <div className="w-full bg-gray-300 h-5"></div>
                 </div>
             </div>
-            <div className={'border-y-2 p-2 md:w-[450px] w-[350px] flex flex-col gap-2'}>
+            <div className={'border-y-2 p-2 md:w-[550px] w-[350px] flex flex-col gap-2'}>
                 <div className={'flex gap-2 items-center'}>
                     <div className="w-[100px] bg-gray-300 h-5"></div>
                 </div>
@@ -39,7 +39,7 @@ const SkeletonPost = () => {
                     <div className="w-full bg-gray-300 h-5"></div>
                 </div>
             </div>
-            <div className={'border-y-2 p-2 md:w-[450px] w-[350px] flex flex-col gap-2'}>
+            <div className={'border-y-2 p-2 md:w-[550px] w-[350px] flex flex-col gap-2'}>
                 <div className={'flex gap-2 items-center'}>
                     <div className="w-[100px] bg-gray-300 h-5"></div>
                 </div>

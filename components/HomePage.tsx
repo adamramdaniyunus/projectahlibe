@@ -7,13 +7,13 @@ import ListTags from "./ListTags";
 
 export default function HomePage({ nameTags = [] }: { nameTags: any }) {
     const [search, setSearchPost] = useState('');
-
+    const [tags, setTags] = useState('');
     const {
         data: postsData,
         isLoading,
         refetch
     } = useQuery({
-        queryFn: () => getAllPost(search, nameTags),
+        queryFn: () => getAllPost(search, tags),
         queryKey: ["posts"]
     });
 
@@ -25,17 +25,17 @@ export default function HomePage({ nameTags = [] }: { nameTags: any }) {
         isFetching: fetchingDataTwo,
         isLoading: loadingDataPostTwo,
     } = useQuery({
-        queryFn: () => getAllPostsNoSearch(nameTags),
+        queryFn: () => getAllPostsNoSearch(tags),
         queryKey: ["postsnosearch"]
     });
 
 
     useEffect(() => {
         // Memanggil refetchDataTwo hanya sekali saat nameTags berubah
-        if (nameTags) {
+        if (tags || tags === '') {
             refetchDataTwo();
         }
-    }, [nameTags, refetchDataTwo]);
+    }, [tags, refetchDataTwo]);
 
     const [showTags, setShowTags] = useState(false)
 
@@ -45,7 +45,7 @@ export default function HomePage({ nameTags = [] }: { nameTags: any }) {
             <Header showTags={showTags} setShowTags={setShowTags} search={search} setSearchPost={setSearchPost as () => void} refetch={refetch} refetchDataTwo={refetchDataTwo} data={postsData} />
             <div className={'flex gap-10 mt-20 justify-center relative h-screen'}>
                 <div className={`${showTags ? "left-0" : "-left-96"} top-0 bg-white p-4 z-50 md:z-10 transition-all absolute md:static w-1/4 md:w-1/2 md:flex justify-end h-2/3 overflow-auto`}>
-                    <ListTags />
+                    <ListTags setTags={setTags} />
                 </div>
                 <div className={'overflow-auto w-auto md:w-full h-full'}>
                     {/* <SkeletonPost /> */}

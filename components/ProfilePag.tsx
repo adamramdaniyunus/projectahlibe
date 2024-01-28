@@ -74,7 +74,7 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                             {loadingUserData ? <div className="w-[200px] bg-gray-200 h-4"></div> :
                                 <div className="w-full flex justify-center">
                                     {userDta?.email}
-                                    {userDta?.email === session?.user?.email && <button className="absolute right-0 bottom-0" onClick={handleEditButton}>
+                                    {userDta?.email === session?.user?.email && <button className="absolute right-2 bottom-2" onClick={handleEditButton}>
                                         <Pencil />
                                     </button>}
                                 </div>
