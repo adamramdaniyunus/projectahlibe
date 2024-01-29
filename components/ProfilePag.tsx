@@ -89,7 +89,7 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                                 </div>}
                         </div>
                         <div className="p-4 flex items-center justify-center">
-                            <p className="text-gray-600 text-[13px] max-h-[200px] max-w-[200px]">{userDta?.desc}</p>
+                            <p className="text-gray-600 text-[13px] max-w-[280px]">{userDta?.desc}</p>
                         </div>
                         {userDta?.email === userInfo?.user.email && <div className="mt-2">
                             <button type="button" className="card__btn mb-2" onClick={handleLogout}>Logout</button>
