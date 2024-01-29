@@ -49,7 +49,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             }).populate([
                 {
                     path: "user",
-                    select: ["image", "name", "email"],
+                    select: ["image", "name", "email", "verified"],
                 },
             ]).sort({ createdAt: -1 });
 

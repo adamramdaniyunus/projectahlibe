@@ -14,6 +14,7 @@ import ModalConfirm from "./modal/ModalConfirm";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import Verified from "./icon/Verified";
 
 // type
 type DataItem = {
@@ -29,6 +30,7 @@ type DataItem = {
         name: string;
         image: string;
         email: string;
+        verified: boolean
     }
 }
 interface PostToBoxPROPS {
@@ -119,7 +121,7 @@ const PostBox: React.FC<PostToBoxPROPS> = ({ data, refetch }) => {
                 <div className="flex justify-between">
                     <Link href={'/profile/' + data?.user.email} className={'flex gap-2 items-center'}>
                         <Image src={data?.user?.image} loader={() => data?.user.image} alt="profile" width={0} height={0} className="w-6 rounded-lg" />
-                        <p className="text-gray-600 font-semibold">{data?.user.name}</p>
+                        <p className="text-gray-600 font-semibold flex ">{data?.user.name}{data?.user.verified && <span><Verified /></span>}</p>
                     </Link>
 
                     <div>
