@@ -42,7 +42,7 @@ const PostBox: React.FC<PostToBoxPROPS> = ({ data, refetch }) => {
     const { userInfo } = useSelector((state: any) => state.user);
     const [showBar, setShowBar] = useState(false)
     const [confirm, setConfirm] = useState(false)
-    const [like, setLike] = useState(data.likes && data.likes.includes(userInfo?.user.email || ""));
+    const [like, setLike] = useState(data.likes && data.likes.includes(userInfo?.user.email));
     const [liked, setLiked] = useState(data.likes && data.likes.length);
 
     const router = useRouter();

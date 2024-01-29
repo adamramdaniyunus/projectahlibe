@@ -76,27 +76,23 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                                 <Image loader={() => userDta?.image} src={userDta?.image} alt="profile" height={0} width={0} />
                             }
                         </div>
-                        <div className="card__title w-full flex justify-center">
-                            {loadingUserData ? <div className="w-[200px] bg-gray-200 h-4"></div> :
-                                <div className="w-full flex justify-center">
-                                    {userDta?.email}
-                                    {userDta?.email === userInfo?.user.email && <button className="absolute right-2 bottom-2" onClick={handleEditButton}>
-                                        <Pencil />
-                                    </button>}
-                                </div>
-                            }
-                        </div>
-                        <div className="card__subtitle flex relative">
+
+                        {loadingUserData ? <div className="w-[200px] bg-gray-200 h-4"></div> :
+                            userDta?.email === userInfo?.user.email && <button className="absolute right-2 bottom-2" onClick={handleEditButton}>
+                                <Pencil />
+                            </button>
+                        }
+                        <div className="flex relative">
                             {loadingUserData ? <div className="w-[100px] bg-gray-200 h-4"></div> :
-                                <div className="relative w-full flex">
+                                <div className="relative w-full font-semibold flex">
                                     {userDta?.name}{userDta?.verified && <span className="absolute -right-4"><Verified /></span>}
                                 </div>}
                         </div>
                         <div className="p-4 flex items-center justify-center">
-                            <p className="text-gray-600 text-[13px]">{userDta?.desc}</p>
+                            <p className="text-gray-600 text-[13px] max-h-[200px] max-w-[200px]">{userDta?.desc}</p>
                         </div>
-                        {userDta?.email === userInfo?.user.email && <div>
-                            <button type="button" className="card__btn" onClick={handleLogout}>Logout</button>
+                        {userDta?.email === userInfo?.user.email && <div className="mt-2">
+                            <button type="button" className="card__btn mb-2" onClick={handleLogout}>Logout</button>
                         </div>}
 
                     </div>

@@ -213,6 +213,7 @@
     width: 300px;
     /* height: 384px; */
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: start;
     align-items: center;
@@ -231,15 +232,15 @@
 }
 
 .card__avatar {
-    position: absolute;
+    /* position: absolute; */
     width: 114px;
     height: 114px;
+    margin-top: -80px;
     background: var(--bg-color);
     border-radius: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    top: calc(50% - 120px);
 }
 
 .card__avatar img {
@@ -289,4 +290,11 @@
 .card__btn-solid:hover {
     background: var(--bg-color);
     color: var(--main-color);
+}
+
+.card__description {
+    max-width: 00px;
+    /* Atur lebar maksimum sesuai kebutuhan */
+    overflow: hidden;
+    white-space: nowrap;
 }
