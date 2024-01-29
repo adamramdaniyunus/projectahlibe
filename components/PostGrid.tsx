@@ -9,6 +9,7 @@ type DataItem = {
         name: string;
         image: string;
         email: string;
+        verified: boolean
     }
     likes: string[];
     video: string;
