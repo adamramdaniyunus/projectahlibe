@@ -129,7 +129,7 @@ const PostBox: React.FC<PostToBoxPROPS> = ({ data, refetch }) => {
                 <div className={'py-2 font-semibold'}>
                     <h1 className={'text-md text-gray-700'}>{data.desc}</h1>
                 </div>
-                <div className={'bg-gray-300'}>
+                <div className={'flex'}>
                     {data?.video && <div>
                         <ReactPlayer
                             width="100%"

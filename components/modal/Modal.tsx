@@ -153,24 +153,27 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
                                     </div>
                                 </div>
                                 <div className="flex justify-between w-full items-center">
-                                    {video ? (
-                                        <p className="text-gray-400 text-sm">{video?.fileName}</p>
-                                    ) : image ? <p className="text-gray-400 text-sm">{image?.fileName}</p> : <p className="text-gray-400 text-sm">Masukan file</p>}
+                                    <div className="flex gap-2">
+                                        {video && (
+                                            <p className="text-gray-400 text-sm">{video?.fileName}</p>
+                                        )}
+                                        {image && <p className="text-gray-400 text-sm">{image?.fileName}</p>}
+                                    </div>
                                     <UploadButton<OurFileRouter, any>
                                         endpoint="imageUploader"
                                         content={{
-                                            allowedContent: "Masukan file max 200mb",
+                                            allowedContent: "Masukan file max 50mb",
                                             button({ ready, isUploading }) {
+                                                if (isUploading) {
+                                                    setDisabled(true)
+                                                }
                                                 if (ready) {
                                                     setDisabled(false);
                                                     return <PostIcons />
                                                 }
-                                                if (!ready) {
-                                                    setDisabled(true)
-                                                }
                                             },
                                         }}
-                                        className="mt-4 ut-button:w-14 ut-button:p-2 ut-uploading:disabled:cursor-not-allowed ut-button:bg-white z-50 ut-button:border-none text-black ut-button:ut-readying:bg-white ut-uploading:ut-button:border-none"
+                                        className={`mt-4 ut-button:w-14 ut-button:p-2 ut-uploading:ut-button:cursor-wait  ut-button:bg-white z-50 ut-button:border-none text-black ut-button:ut-readying:bg-white ut-uploading:ut-button:border-none`}
                                         onClientUploadComplete={(res) => {
                                             if (res && res.length > 0) {
                                                 const firstFile = res[0];

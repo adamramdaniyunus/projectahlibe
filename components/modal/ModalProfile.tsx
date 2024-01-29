@@ -18,6 +18,7 @@ type TagsItem = {
 const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta }) => {
     // opsi tags    // desc
     const [desc, setDesc] = useState(userDta?.desc || '')
+    const [name, setName] = useState(userDta?.name)
     // loading
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -48,7 +49,8 @@ const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta 
         try {
             setLoading(true)
             await axios.put('/api/user?email=' + userDta?.email, {
-                desc: desc
+                desc: desc,
+                name: name
             })
             setLoading(false)
             toast.success("Profile di update!")
@@ -71,7 +73,7 @@ const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta 
                         <form className={'w-full'} onSubmit={addPostHandler}>
                             <div className={'flex gap-2 border-b-2 py-1'}>
                                 <Image src={user?.image || ""} width={0} height={0} loader={() => user?.image || ""} alt="" className={'rounded-full w-6 h-6'} />
-                                <p className={'text-gray-400 font-semibold'}>{user?.name}</p>
+                                <input className={'text-gray-400 font-semibod w-full outline-none'} value={name} onChange={e => setName(e.target.value)} />
                             </div>
                             <textarea
                                 ref={textareaRef}

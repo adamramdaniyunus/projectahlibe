@@ -19,12 +19,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             }
         }
         if (req.method === "PUT") {
-            const { desc } = req.body;
+            const { desc, name } = req.body;
             const user = await User.findOne({ email: req.query.email });
 
             if (!user) return res.status(404);
 
-            await user.updateOne({ desc: desc });
+            await user.updateOne({ desc: desc, name: name });
 
             return res.json("updated")
 
