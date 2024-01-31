@@ -40,6 +40,17 @@ export const getAllPostsNoSearch = async (nameTags = "") => {
     }
 }
 
+export const getAllPosts = async () => {
+    try {
+        const response = await axios.get('/api/post');
+        const data = response.data;
+        return data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
 export const getPostUser = async (email = "") => {
     try {
         const response = await axios.get('/api/post?email=' + email);

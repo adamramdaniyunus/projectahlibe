@@ -6,18 +6,22 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { Toaster } from 'react-hot-toast';
 import store from '../store';
 import { Provider } from 'react-redux';
+import NextNProgress from 'nextjs-progressbar';
 
 const queryClient = new QueryClient()
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <SessionProvider session={session}>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
-          <Toaster position='top-right' />
-        </QueryClientProvider>
-      </Provider>
-    </SessionProvider>
+    <>
+      <SessionProvider session={session}>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <NextNProgress />
+            <Component {...pageProps} />
+            <Toaster position='top-right' />
+          </QueryClientProvider>
+        </Provider>
+      </SessionProvider>
+    </>
   )
 }

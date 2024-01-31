@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import ListTags from "./ListTags";
 
-export default function HomePage({ nameTags = [] }: { nameTags: any }) {
+export default function HomePage({ nameTags }: { nameTags: any }) {
     const [search, setSearchPost] = useState('');
     const [load, setLoading] = useState(false)
     const {
@@ -16,7 +16,6 @@ export default function HomePage({ nameTags = [] }: { nameTags: any }) {
         queryFn: () => getAllPost(search, nameTags),
         queryKey: ["posts"]
     });
-
 
     // data 2 for re fetching after user didnt use search input
     const {
@@ -29,18 +28,18 @@ export default function HomePage({ nameTags = [] }: { nameTags: any }) {
         queryKey: ["postsnosearch"]
     });
 
+
     useEffect(() => {
         // Memanggil refetchDataTwo hanya sekali saat nameTags berubah
         if (nameTags) {
             const fetchingdata = async () => {
-                setLoading(true);
                 await refetchDataTwo();
-                setLoading(false)
             }
 
             fetchingdata()
         }
-    }, [nameTags, refetchDataTwo, setLoading]);
+    }, [nameTags, refetchDataTwo])
+
 
     const [showTags, setShowTags] = useState(false)
     return (
@@ -52,7 +51,7 @@ export default function HomePage({ nameTags = [] }: { nameTags: any }) {
                 </div>
                 <div className={'overflow-auto w-auto md:w-full h-full'}>
                     {/* <SkeletonPost /> */}
-                    <PostGrid data={postsData} loading={load} fetchingDataUser={false} fetchingDataTwo={fetchingDataTwo} search={search} isLoading={isLoading} loadingDataPostUser={false} postUser={[]} loadingDataPostTwo={loadingDataPostTwo} refetch={refetch} postDataTwo={postsDataTwo} />
+                    <PostGrid nameTags={nameTags} data={postsData} loading={load} fetchingDataUser={false} fetchingDataTwo={fetchingDataTwo} search={search} isLoading={isLoading} loadingDataPostUser={false} postUser={[]} loadingDataPostTwo={loadingDataPostTwo} refetch={refetch} postDataTwo={postsDataTwo} />
                 </div>
             </div>
         </div>

@@ -35,7 +35,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             let tagsQuery = {};
             let searchQuery = {};
 
-            if (tags) {
+            if (tags && tags !== "all") {
                 tagsQuery = { tags: { $in: [tags] } };
             }
 
