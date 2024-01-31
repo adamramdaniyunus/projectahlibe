@@ -33,7 +33,9 @@ export default function HomePage({ nameTags }: { nameTags: any }) {
         // Memanggil refetchDataTwo hanya sekali saat nameTags berubah
         if (nameTags) {
             const fetchingdata = async () => {
+                setLoading(true)
                 await refetchDataTwo();
+                setLoading(false)
             }
 
             fetchingdata()
