@@ -32,8 +32,9 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
         refetch: refetchUserData
     } = useQuery({
         queryFn: () => getUser(email),
-        queryKey: ["profile"]
+        queryKey: ["profile", email]
     });
+
 
     if (email) {
         refetchUserData()
