@@ -72,18 +72,6 @@ export default function PostGrid({ search, data, postDataTwo, loading, nameTags,
         )
     }
 
-    if (nameTags === "all") {
-        return (
-            <div>
-                {(loadingDataPostTwo ? <Spinner /> : postDataTwo?.length > 0 ? (
-                    postDataTwo?.map((data: DataItem, i: number) => (
-                        <PostBox key={i} data={data} refetch={refetch} />
-                    ))
-                ) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>)}
-            </div>
-        )
-    }
-
     return (
         <div className={'flex flex-col mb-20'}>
             {(loadingDataPostTwo ? <Spinner /> : postDataTwo?.length > 0 ? (

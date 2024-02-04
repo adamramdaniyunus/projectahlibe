@@ -18,7 +18,7 @@ const ListTags = () => {
             <h1 className='text-gray-400 text-xs w-full md:text-sm p-1 md:p-4'>Cari Postingan</h1>
             {/* list tags */}
             <div className='flex flex-col items-start'>
-                <Link href={"/tags/" + name} className='lowercase p-2 text-md italic cursor-pointer hover:border-b-blue-400 text-gray-500 border-b-2'>#all</Link>
+                <Link href={"/"} className='lowercase p-2 text-md italic cursor-pointer hover:border-b-blue-400 text-gray-500 border-b-2'>#all</Link>
                 {
                     isLoading ? <TagsSkeleton /> : (dataTags?.map((tags: any, i: number) => (
                         <Link href={"/tags/" + tags.name} key={i} className='lowercase p-2 text-md italic cursor-pointer hover:border-b-blue-400 text-gray-500 border-b-2'>#{tags.name}</Link>

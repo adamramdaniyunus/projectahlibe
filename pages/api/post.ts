@@ -30,7 +30,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 return res.json(data)
             }
             let search: any = req.query.search || "";
-            let tags: any = req.query.tags || "";
+            let tags: any = req.query.tags || "all";
 
             let tagsQuery = {};
             let searchQuery = {};
