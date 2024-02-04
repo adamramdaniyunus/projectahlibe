@@ -7,6 +7,7 @@ import { getAllCommentPost } from "@/services/comment";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { useSelector } from "react-redux";
+import Verified from "./icon/Verified";
 
 // types
 interface CommentBoxProps {
@@ -38,6 +39,7 @@ type CommentItem = {
         name: string;
         image: string;
         _id: string;
+        verified: boolean;
     }
     createdAt: string;
     post: string;
@@ -49,6 +51,7 @@ type CommentItem = {
                 name: string;
                 image: string;
                 _id: string;
+                verified: boolean;
             }
             desc: string;
             createdAt: string;
@@ -175,17 +178,11 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
         }
     };
 
+    const commentTimes: { [key: string]: string } = {};
     // mapping times
-    const times = comments?.map((comment: CommentItem) => {
-        return calculateTimeDifference(comment?.createdAt);
+    comments?.forEach((comment: CommentItem) => {
+        commentTimes[comment._id] = calculateTimeDifference(comment.createdAt);
     });
-
-
-    const replyTimes = comments?.map((comment: CommentItem) => {
-        return comment.replies.map((repliesComment) => {
-            return calculateTimeDifference(repliesComment?.createdAt);
-        });
-    }).flat();
 
 
 
@@ -206,8 +203,13 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
                                     <Image src={comment?.user?.image || ""} alt="profile" height={0} width={0} loader={() => comment?.user?.image || ""} className={'h-6 w-6 mt-1 rounded-full'} />
                                 </div>
                                 <div className={'flex flex-col'}>
-                                    <p className={'text-gray-600 text-sm font-semibold flex items-center gap-4'}>{comment.user?.name} <span
-                                        className={'text-gray-600 text-xs'}>{times[i]}</span></p>
+                                    <div className="flex gap-4">
+                                        <p className={'text-gray-600 text-sm font-semibold flex items-center'}>{comment.user?.name}{comment?.user.verified && <span className="mb-1"><Verified /></span>}
+                                        </p>
+                                        <span
+                                            className={'text-gray-600 font-semibold text-xs'}>{commentTimes[comment?._id]}
+                                        </span>
+                                    </div>
                                     <HighlightUsername text={comment?.desc} username={comment?.replyOnUserName} />
                                 </div>
 
@@ -222,8 +224,13 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
                                                     <Image src={replyComment?.user?.image || ""} alt="profile" height={0} width={0} loader={() => replyComment?.user?.image || ""} className={'h-6 w-6 mt-1 rounded-full'} />
                                                 </div>
                                                 <div className={'flex flex-col'}>
-                                                    <p className={'text-gray-600 text-sm font-semibold flex items-center gap-4'}>{replyComment.user?.name}  <span
-                                                        className={'text-gray-600 text-xs'}>{replyTimes[j]}</span></p>
+                                                    <div className="flex gap-4">
+                                                        <p className={'text-gray-600 text-sm font-semibold flex items-center'}>{replyComment.user?.name}{replyComment?.user.verified && <span className="mb-1"><Verified /></span>}
+                                                        </p>
+                                                        <span
+                                                            className={'text-gray-600 font-semibold text-xs'}>{commentTimes[replyComment?._id]}
+                                                        </span>
+                                                    </div>
                                                     <HighlightUsername text={replyComment?.desc} username={replyComment?.replyOnUserName} />
                                                 </div>
                                                 <button onClick={() => handleComment(replyComment.user.name, comment?._id, replyComment?.user._id)} className="absolute right-10 text-gray-500 text-sm font-bold bottom-0">Balas</button>

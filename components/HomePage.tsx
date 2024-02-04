@@ -7,7 +7,6 @@ import ListTags from "./ListTags";
 
 export default function HomePage({ nameTags }: { nameTags: any }) {
     const [search, setSearchPost] = useState('');
-    const [load, setLoading] = useState(false)
     const {
         data: postsData,
         isLoading,
@@ -25,20 +24,15 @@ export default function HomePage({ nameTags }: { nameTags: any }) {
         isLoading: loadingDataPostTwo,
     } = useQuery({
         queryFn: () => getAllPostsNoSearch(nameTags),
-        queryKey: ["postsnosearch"]
+        queryKey: ["postsnosearch"],
+        staleTime: 1800000, //ini akan di refresh ketika sudah 30 menit
     });
 
 
     useEffect(() => {
         // Memanggil refetchDataTwo hanya sekali saat nameTags berubah
         if (nameTags) {
-            const fetchingdata = async () => {
-                setLoading(true)
-                await refetchDataTwo();
-                setLoading(false)
-            }
-
-            fetchingdata()
+            refetchDataTwo()
         }
     }, [nameTags, refetchDataTwo])
 
@@ -53,9 +47,9 @@ export default function HomePage({ nameTags }: { nameTags: any }) {
                 </div>
                 <div className={'overflow-auto w-auto md:w-full h-full'}>
                     {/* <SkeletonPost /> */}
-                    <PostGrid nameTags={nameTags} data={postsData} loading={load} fetchingDataUser={false} fetchingDataTwo={fetchingDataTwo} search={search} isLoading={isLoading} loadingDataPostUser={false} postUser={[]} loadingDataPostTwo={loadingDataPostTwo} refetch={refetch} postDataTwo={postsDataTwo} />
+                    <PostGrid nameTags={nameTags} data={postsData} loading={fetchingDataTwo} fetchingDataUser={false} fetchingDataTwo={fetchingDataTwo} search={search} isLoading={isLoading} loadingDataPostUser={false} postUser={[]} loadingDataPostTwo={loadingDataPostTwo} refetch={refetch} postDataTwo={postsDataTwo} />
                 </div>
             </div>
         </div>
     )
-}
+}   

@@ -17,14 +17,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 .populate([
                     {
                         path: "user",
-                        select: ["image", "name"],
+                        select: ["image", "name", "verified"],
                     },
                     {
                         path: "replies",
                         populate: [
                             {
                                 path: "user",
-                                select: ["image", "name"],
+                                select: ["image", "name", "verified"],
                             },
                         ],
                     },

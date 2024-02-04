@@ -16,7 +16,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
       <SessionProvider session={session}>
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
-            <NextNProgress />
+            <NextNProgress
+              stopDelayMs={1000}
+            />
             <Component {...pageProps} />
             <Toaster position='top-right' />
           </QueryClientProvider>
