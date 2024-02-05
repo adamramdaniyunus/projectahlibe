@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import ListTags from "./ListTags";
 
-export default function HomePage({ nameTags }: { nameTags: string }) {
+export default function HomePage({ nameTags }: { nameTags: any }) {
     const [search, setSearchPost] = useState('');
     nameTags.length ? nameTags : nameTags = "all"
     // stale time ini untuk menentukan berapa lama data akan valid
