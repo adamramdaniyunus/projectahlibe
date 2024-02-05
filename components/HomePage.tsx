@@ -7,22 +7,22 @@ import ListTags from "./ListTags";
 
 export default function HomePage({ nameTags }: { nameTags: any }) {
     const [search, setSearchPost] = useState('');
-    nameTags.length ? nameTags : nameTags = "all"
-    // stale time ini untuk menentukan berapa lama data akan valid
-    const STALE_TIME = 30 * 60 * 1000 // 30 menit lamanya
+    nameTags?.length ? nameTags : nameTags = "all"
+    // // stale time ini untuk menentukan berapa lama data akan valid
+    // const STALE_TIME = 30 * 60 * 1000 // 30 menit lamanya
 
-    // memeriksa waktu terakhir app dibuka
-    const lastUpdateTime: any = localStorage.getItem('timesData');
+    // // memeriksa waktu terakhir app dibuka
+    // const lastUpdateTime: any = localStorage.getItem('timesData');
 
-    // perhitungan waktu
-    const currentTime = new Date().getTime();
-    const timeElapsed = currentTime - parseInt(lastUpdateTime, 10);
-    let staleTime = STALE_TIME
+    // // perhitungan waktu
+    // const currentTime = new Date().getTime();
+    // const timeElapsed = currentTime - parseInt(lastUpdateTime, 10);
+    // let staleTime = STALE_TIME
 
-    // atur ulang waktu
-    if (lastUpdateTime) {
-        staleTime = timeElapsed > STALE_TIME ? STALE_TIME : STALE_TIME - timeElapsed;
-    }
+    // // atur ulang waktu
+    // if (lastUpdateTime) {
+    //     staleTime = timeElapsed > STALE_TIME ? STALE_TIME : STALE_TIME - timeElapsed;
+    // }
     const {
         data: postsData,
         isLoading,
@@ -30,7 +30,7 @@ export default function HomePage({ nameTags }: { nameTags: any }) {
     } = useQuery({
         queryFn: () => getAllPost(search, nameTags),
         queryKey: ["posts"],
-        staleTime: staleTime
+        staleTime: 30 * 60 * 1000
     });
 
     // data 2 for re fetching after user didnt use search input
@@ -42,14 +42,14 @@ export default function HomePage({ nameTags }: { nameTags: any }) {
     } = useQuery({
         queryFn: () => getAllPostsNoSearch(nameTags),
         queryKey: ["postsnosearch"],
-        staleTime: staleTime, //ini akan di refresh ketika sudah 30 menit
+        staleTime: 30 * 60 * 1000, //ini akan di refresh ketika sudah 30 menit
     });
 
     useEffect(() => {
         // Memanggil refetchDataTwo hanya sekali saat nameTags berubah
         if (nameTags) {
             refetchDataTwo()
-            localStorage.setItem("timesData", new Date().getTime().toString());
+            // localStorage.setItem("timesData", new Date().getTime().toString());
         }
     }, [nameTags, refetchDataTwo]);
 
