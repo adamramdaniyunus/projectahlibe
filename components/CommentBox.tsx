@@ -108,6 +108,7 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
     const [desc, setDesc] = useState<string>('')
     const [toUser, setReplyOnUser] = useState('')
     const [userId, setUserId] = useState('')
+    const [sendingComment, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
         // Focus on the textarea element when the value is updated
@@ -138,12 +139,14 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
         e.preventDefault();
 
         try {
+            setLoading(true);
             await axios.post('/api/comment?postId=' + data._id, {
                 useremail: userInfo?.user.email,
                 toUser: toUser,
                 userId: userId,
                 desc
-            })
+            });
+            setLoading(false)
             refetch()
             toast.success("Komentar dikirim");
             setDesc('')
@@ -252,7 +255,6 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
                 <h1 className={'text-xl font-semibold text-gray-600 px-1 py-4'}>Kirim Komentar</h1>
                 <form className={'w-full'} onSubmit={handlerAddComment}>
                     <div className={'comment-container w-full flex gap-2'}>
-                        {/*<input type="text" className={''} placeholder={"Good Game"}/>*/}
                         <textarea
                             ref={textareaRef}
                             value={desc}
@@ -270,7 +272,7 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
                                     d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                             </svg>
                         </label> */}
-                        <button className="px-4 py-1 text-white font-semibold bg-green-400 rounded-lg">Send</button>
+                        <button disabled={sendingComment} className="px-4 py-1 text-white font-semibold bg-green-400 rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed">Send</button>
                     </div>
                 </form>
             </div>

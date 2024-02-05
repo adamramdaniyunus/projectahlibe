@@ -29,7 +29,7 @@ export const getAllPost = async (search = "", nameTags = "") => {
 }
 
 
-export const getAllPostsNoSearch = async (nameTags = "") => {
+export const getAllPostsNoSearch = async (nameTags = "all") => {
     try {
         const response = await axios.get('/api/post?tags=' + nameTags);
         const data = response.data;

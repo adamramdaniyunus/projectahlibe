@@ -30,7 +30,6 @@ interface GridProps {
     data: DataItem[];
     fetchingDataTwo: boolean;
     fetchingDataUser: boolean;
-    loading: boolean
     nameTags: string;
 }
 
@@ -43,9 +42,9 @@ export const Spinner = () => {
 }
 
 
-export default function PostGrid({ search, data, postDataTwo, loading, nameTags, fetchingDataUser, loadingDataPostTwo, loadingDataPostUser, isLoading, postUser, fetchingDataTwo, refetch }: GridProps) {
+export default function PostGrid({ search, data, postDataTwo, nameTags, fetchingDataUser, loadingDataPostTwo, loadingDataPostUser, isLoading, postUser, fetchingDataTwo, refetch }: GridProps) {
     // went data loading
-    if (loading) {
+    if (fetchingDataTwo) {
         return <Spinner />
     }
 

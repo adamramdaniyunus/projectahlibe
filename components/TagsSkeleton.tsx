@@ -2,12 +2,12 @@ import React from 'react'
 
 const TagsSkeleton = () => {
     return (
-        <div className='flex flex-col'>
-            <div className='lowercase p-2 text-md italic cursor-pointer hover:border-b-blue-400 w-24 text-gray-500 border-b-2'></div>
-            <div className='lowercase p-2 text-md italic cursor-pointer hover:border-b-blue-400 w-24 text-gray-500 border-b-2'></div>
-            <div className='lowercase p-2 text-md italic cursor-pointer hover:border-b-blue-400 w-24 text-gray-500 border-b-2'></div>
-            <div className='lowercase p-2 text-md italic cursor-pointer hover:border-b-blue-400 w-24 text-gray-500 border-b-2'></div>
-
+        <div className='flex flex-col gap-4'>
+            <div className='p-2 cursor-wait w-24 h-4 bg-gray-300'></div>
+            <div className='p-2 cursor-wait w-20 h-4 bg-gray-300'></div>
+            <div className='p-2 cursor-wait w-28 h-4 bg-gray-300'></div>
+            <div className='p-2 cursor-wait w-16 h-4 bg-gray-300'></div>
+            <div className='p-2 cursor-wait w-12 h-4 bg-gray-300'></div>
         </div>
     )
 }
