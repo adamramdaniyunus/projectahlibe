@@ -20,7 +20,7 @@ export default function HomePage({ nameTags }: { nameTags: any }) {
     let staleTime = STALE_TIME
 
     // atur ulang waktu
-    if (nameTags.length === 0 && lastUpdateTime) {
+    if (lastUpdateTime) {
         staleTime = timeElapsed > STALE_TIME ? STALE_TIME : STALE_TIME - timeElapsed;
     }
     const {
@@ -45,18 +45,13 @@ export default function HomePage({ nameTags }: { nameTags: any }) {
         staleTime: staleTime, //ini akan di refresh ketika sudah 30 menit
     });
 
-    const handleDataFetching = async () => {
-        await refetchDataTwo();
-        localStorage.setItem("timesData", new Date().getTime().toString());
-    }
-
-
     useEffect(() => {
         // Memanggil refetchDataTwo hanya sekali saat nameTags berubah
         if (nameTags) {
-            handleDataFetching()
+            refetchDataTwo()
+            localStorage.setItem("timesData", new Date().getTime().toString());
         }
-    }, [nameTags]);
+    }, [nameTags, refetchDataTwo]);
 
     const [showTags, setShowTags] = useState(false)
     return (
