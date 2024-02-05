@@ -61,7 +61,7 @@ export default function PostGrid({ search, data, postDataTwo, nameTags, fetching
 
 
 
-    if (search?.length > 0) {
+    if (search?.length >= 3) {
         return (
             <div>
                 {isLoading ? <Spinner /> : data?.length > 0 ? data?.map((data: DataItem, i: number) => (
