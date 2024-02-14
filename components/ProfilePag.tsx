@@ -64,7 +64,7 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
     }
     return (
         <div>
-            <Header showTags={showTags} setShowTags={setShowTags} search={search} setSearchPost={setSearchPost as () => void} refetch={() => { }} refetchDataTwo={refetchDataPostUser} data={[]} />
+            <Header showTags={showTags} setShowTags={setShowTags} refetchDataTwo={refetchDataPostUser} />
             <div className={'flex md:gap-10 gap-2 mt-20 h-full md:h-screen justify-center items-center md:items-start relative flex-col md:flex-row overflow-auto md:overflow-hidden'}>
                 <div className={`py-4 md:mt-0 md:w-1/2 md:flex justify-end h-full md:h-2/3`}>
                     <div className="shadow card">
@@ -102,7 +102,7 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                 {isModal && <ModalProfile handleModal={handleEditButton} refetchUser={refetchUserData} userDta={userDta} />}
                 <div className={'w-auto md:w-full h-full md:overflow-auto mb-20'}>
                     {/* <SkeletonPost /> */}
-                    <PostGrid data={[]} nameTags="" search={search} fetchingDataUser={fetchingDataUser} fetchingDataTwo={false} isLoading={false} loadingDataPostTwo={loadingDataPostUser} loadingDataPostUser={loadingDataPostUser} refetch={refetchDataPostUser} postUser={postUser} postDataTwo={[]} />
+                    <PostGrid fetchingDataUser={fetchingDataUser} fetchingDataTwo={false} loadingDataPostTwo={loadingDataPostUser} loadingDataPostUser={loadingDataPostUser} refetch={refetchDataPostUser} postUser={postUser} postDataTwo={[]} />
                 </div>
             </div>
         </div>
