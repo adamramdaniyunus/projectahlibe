@@ -7,11 +7,7 @@ import Modal from "@/components/modal/Modal";
 import { signIn, useSession } from "next-auth/react";
 
 type Search = {
-    setSearchPost: (e: string) => void;
-    search: string
-    refetch: () => void
     refetchDataTwo: () => void;
-    data: DataItem[]
     showTags: boolean;
     setShowTags: (e: any) => void;
 }
@@ -29,7 +25,7 @@ type DataItem = {
 
 
 
-export default function Header({ showTags, setShowTags, setSearchPost, search, refetch, refetchDataTwo, }: Search) {
+export default function Header({ setShowTags, refetchDataTwo, }: Search) {
 
     const { data: session } = useSession();
     const user = session?.user
@@ -61,7 +57,6 @@ export default function Header({ showTags, setShowTags, setSearchPost, search, r
             // Cek apakah yang diklik adalah input atau div yang menunjukkan elemen
             if (
                 target.tagName &&
-                target.tagName.toLowerCase() !== "input" &&
                 !target.classList.contains("dropdown")
             ) {
                 setShowSearch(false);
@@ -79,16 +74,16 @@ export default function Header({ showTags, setShowTags, setSearchPost, search, r
     }, []);
 
     // handle search 
-    const handleSearch = async (e: any) => {
-        const inputValue: any = e.target.value;
+    // const handleSearch = async (e: any) => {
+    //     const inputValue: any = e.target.value;
 
-        setSearchPost(inputValue);//error type //solved in type 
+    //     setSearchPost(inputValue);//error type //solved in type 
 
-        if (inputValue.length >= 3) {
-            refetch()
-        }
+    //     if (inputValue.length >= 3) {
+    //         refetch()
+    //     }
 
-    }
+    // }
 
 
 
@@ -101,12 +96,12 @@ export default function Header({ showTags, setShowTags, setSearchPost, search, r
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                         </svg>
                     </button>
-                    <button onClick={handleClickShow}><SearchIcon /></button>
+                    {/* <button onClick={handleClickShow}><SearchIcon /></button> */}
                     {user && <button onClick={handleClickModal}><PostIcons /></button>}
                     {user ? <Link href={`/profile/` + user?.email}><ProfileIcon /></Link> : (
                         <button onClick={() => signIn('google')}><ProfileIcon /></button>
                     )}
-                    {showSearch && <input value={search} onChange={handleSearch} className={"absolute input w-[300px] left-1 -bottom-16"} placeholder={"Cari postingan"} autoFocus />}
+                    {/* {showSearch && <input value={search} onChange={handleSearch} className={"absolute input w-[300px] left-1 -bottom-16"} placeholder={"Cari postingan"} />} */}
 
                 </nav>
                 <Link href="/" className={'font-bold uppercase'}>ahalibe</Link>

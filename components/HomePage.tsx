@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import ListTags from "./ListTags";
 
 export default function HomePage({ nameTags }: { nameTags: any }) {
-    const [search, setSearchPost] = useState('');
+    // const [search, setSearchPost] = useState('');
     nameTags?.length ? nameTags : nameTags = "all"
     // // stale time ini untuk menentukan berapa lama data akan valid
     // const STALE_TIME = 30 * 60 * 1000 // 30 menit lamanya
@@ -23,15 +23,7 @@ export default function HomePage({ nameTags }: { nameTags: any }) {
     // if (lastUpdateTime) {
     //     staleTime = timeElapsed > STALE_TIME ? STALE_TIME : STALE_TIME - timeElapsed;
     // }
-    const {
-        data: postsData,
-        isLoading,
-        refetch
-    } = useQuery({
-        queryFn: () => getAllPost(search, nameTags),
-        queryKey: ["posts"],
-        staleTime: 30 * 60 * 1000
-    });
+
 
     // data 2 for re fetching after user didnt use search input
     const {
@@ -56,14 +48,14 @@ export default function HomePage({ nameTags }: { nameTags: any }) {
     const [showTags, setShowTags] = useState(false)
     return (
         <div>
-            <Header showTags={showTags} setShowTags={setShowTags} search={search} setSearchPost={setSearchPost as () => void} refetch={refetch} refetchDataTwo={refetchDataTwo} data={postsData} />
+            <Header showTags={showTags} setShowTags={setShowTags} refetchDataTwo={refetchDataTwo} />
             <div className={'flex gap-10 mt-20 justify-center relative h-screen'}>
                 <div className={`${showTags ? "left-0" : "-left-96"} top-0 bg-white p-4 h-screen z-50 md:z-10 transition-all absolute md:static w-1/4 md:w-1/2 md:flex justify-end md:h-2/3 md:overflow-hidden overflow-auto`}>
                     <ListTags />
                 </div>
                 <div className={'overflow-auto w-auto md:w-full h-full'}>
                     {/* <SkeletonPost /> */}
-                    <PostGrid nameTags={nameTags} data={postsData} fetchingDataUser={false} fetchingDataTwo={fetchingDataTwo} search={search} isLoading={isLoading} loadingDataPostUser={false} postUser={[]} loadingDataPostTwo={loadingDataPostTwo} refetch={refetch} postDataTwo={postsDataTwo} />
+                    <PostGrid refetch={refetchDataTwo} fetchingDataUser={false} fetchingDataTwo={fetchingDataTwo} loadingDataPostUser={false} postUser={[]} loadingDataPostTwo={loadingDataPostTwo} postDataTwo={postsDataTwo} />
                 </div>
             </div>
         </div>
