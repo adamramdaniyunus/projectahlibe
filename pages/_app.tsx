@@ -12,18 +12,16 @@ const queryClient = new QueryClient()
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <>
-      <SessionProvider session={session}>
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <QueryClientProvider client={queryClient}>
-            <NextNProgress
-              stopDelayMs={1000}
-            />
-            <Component {...pageProps} />
-            <Toaster position='top-right' />
-          </QueryClientProvider>
+          <NextNProgress
+            stopDelayMs={1000}
+          />
+          <Component {...pageProps} />
+          <Toaster position='top-right' />
         </Provider>
-      </SessionProvider>
-    </>
+      </QueryClientProvider>
+    </SessionProvider>
   )
 }

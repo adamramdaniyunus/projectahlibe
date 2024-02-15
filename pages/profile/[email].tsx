@@ -16,7 +16,7 @@ const ProfileEmail = () => {
 
     return (
         <div className="h-screen">
-            <ProfilePage nameTags={""} />
+            <ProfilePage />
         </div>
     )
 }

@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { useSession } from "next-auth/react";
 
 import { createUploadthing, type FileRouter } from "uploadthing/next-legacy";
 
+import { UTApi } from "uploadthing/server";
+
+export const utapi = new UTApi()
 const f = createUploadthing();
 
 // const { data: session } = useSession();
@@ -40,5 +42,4 @@ export const ourFileRouter = {
             return { uploadedBy: metadata.userId };
         }),
 } satisfies FileRouter;
-
 export type OurFileRouter = typeof ourFileRouter;

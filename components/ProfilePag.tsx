@@ -15,8 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/actions/useraction";
 import toast from "react-hot-toast";
 
-export default function ProfilePage({ nameTags }: { nameTags: any }) {
-    const [search, setSearchPost] = useState('');
+export default function ProfilePage() {
     const router = useRouter()
     const { email }: any = router.query
     const [isModal, setShowModal] = useState(false)
@@ -63,7 +62,7 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
         await signOut()
     }
     return (
-        <div>
+        <>
             <Header showTags={showTags} setShowTags={setShowTags} refetchDataTwo={refetchDataPostUser} />
             <div className={'flex md:gap-10 gap-2 mt-20 h-full md:h-screen justify-center items-center md:items-start relative flex-col md:flex-row overflow-auto md:overflow-hidden'}>
                 <div className={`py-4 md:mt-0 md:w-1/2 md:flex justify-end h-full md:h-2/3`}>
@@ -74,7 +73,7 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                         <div className="card__avatar">
                             {loadingUserData ? <div className="rounded-full w-[100px] h-[100px] bg-gray-400"></div>
                                 :
-                                <Image loader={() => userDta?.image} src={userDta?.image} alt="profile" height={0} width={0} />
+                                <Image loader={() => userDta?.image} src={userDta?.image || ""} alt="profile" height={0} width={0} />
                             }
                         </div>
 
@@ -105,6 +104,6 @@ export default function ProfilePage({ nameTags }: { nameTags: any }) {
                     <PostGrid fetchingDataUser={fetchingDataUser} fetchingDataTwo={false} loadingDataPostTwo={loadingDataPostUser} loadingDataPostUser={loadingDataPostUser} refetch={refetchDataPostUser} postUser={postUser} postDataTwo={[]} />
                 </div>
             </div>
-        </div>
+        </>
     )
 }

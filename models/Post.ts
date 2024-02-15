@@ -20,7 +20,7 @@ const postModelSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: "Comment",
     }],
-    image: String
+    image: String,
 }, {
     timestamps: true
 })

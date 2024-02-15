@@ -68,6 +68,14 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
         setTags(updatedTags);
     }
 
+    // enter key press
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            addPostHandler(e);
+        }
+    };
+
 
     const handleTextareaInput = () => {
         const textarea = textareaRef.current
@@ -92,7 +100,7 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
                 video: video?.fileUrl,
                 desc,
                 tags,
-                image: image?.fileUrl
+                image: image?.fileUrl,
             })
             setLoading(false)
             toast.success("Postingan berhasil di upload")
@@ -117,7 +125,6 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
         }
     }
 
-
     return (
         <div onClick={handleModal} className={`fixed z-[54] top-0 left-0 h-screen w-screen bg-black bg-opacity-40`}>
             <div className={"flex justify-center items-center h-full"}>
@@ -133,6 +140,7 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
                             <textarea
                                 ref={textareaRef}
                                 value={desc}
+                                onKeyDown={handleKeyPress}
                                 onChange={e => setDesc(e.target.value)}
                                 className={'post-input mt-2 w-full p-2 resize-none'}
                                 onInput={handleTextareaInput}
@@ -159,7 +167,7 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
                                         )}
                                         {image && <p className="text-gray-400 text-sm">{image?.fileName}</p>}
                                     </div>
-                                    <UploadButton<OurFileRouter, any>
+                                    {video === undefined && image === undefined && <UploadButton<OurFileRouter, any>
                                         endpoint="imageUploader"
                                         content={{
                                             allowedContent: "Masukan file max 50mb",
@@ -200,7 +208,7 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
                                             // Do something with the error.
                                             toast.error(error.message)
                                         }}
-                                    />
+                                    />}
                                 </div>
 
 
