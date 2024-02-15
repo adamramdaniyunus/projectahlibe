@@ -15,9 +15,7 @@ const ProfileEmail = () => {
     };
 
     return (
-        <div className="h-screen">
-            <ProfilePage />
-        </div>
+        <ProfilePage />
     )
 }
 

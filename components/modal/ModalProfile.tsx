@@ -62,6 +62,13 @@ const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta 
         }
     }
 
+    // went user click enter
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            addPostHandler(e);
+        }
+    };
 
     return (
         <div onClick={handleModal} className={`fixed z-[54] top-0 left-0 h-screen w-screen bg-black bg-opacity-40`}>
@@ -78,6 +85,7 @@ const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta 
                             <textarea
                                 ref={textareaRef}
                                 value={desc}
+                                onKeyDown={handleKeyPress}
                                 onChange={e => setDesc(e.target.value)}
                                 className={'post-input mt-2 w-full p-2 resize-none'}
                                 onInput={handleTextareaInput}
