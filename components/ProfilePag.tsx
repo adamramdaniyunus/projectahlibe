@@ -65,7 +65,7 @@ export default function ProfilePage() {
         <>
             <Header showTags={showTags} setShowTags={setShowTags} refetchDataTwo={refetchDataPostUser} />
             <div className={'flex md:gap-10 gap-2 mt-20 h-full md:h-screen justify-center items-center md:items-start relative flex-col md:flex-row overflow-auto md:overflow-hidden'}>
-                <div className={`py-4 md:mt-0 md:w-1/2 md:flex justify-end h-full md:h-2/3`}>
+                <div className={`py-4 md:mt-0 md:w-1/2 md:flex justify-end h-full md:h-auto`}>
                     <div className="shadow card">
                         <div className="card__img">
                             <Image className="rounded-t-xl" src={background} height={500} width={500} alt="background" />
