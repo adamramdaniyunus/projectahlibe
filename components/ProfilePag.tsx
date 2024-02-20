@@ -126,7 +126,7 @@ export default function ProfilePage() {
                         <div className="flex flex-col gap-2 h-full p-0 md:p-4 mb-10 md:overflow-auto">
                             {reportLoading ? <Spinner /> : reportData?.length > 0 ?
                                 reportData?.map((report: ReportData, i: number) => (
-                                    <Link href={`/p/${report?.post._id}`} className="flex gap-2 p-4 relative">
+                                    <Link href={`/p/${report?.post._id}`} key={i} className="flex gap-2 p-4 relative">
                                         <div className={'items-center'}>
                                             <Image src={report?.user.image} alt="profile" height={0} width={0} className={'h-6 w-6 mt-1 rounded-full'} />
                                         </div>
