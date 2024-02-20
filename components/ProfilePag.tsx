@@ -66,7 +66,8 @@ export default function ProfilePage() {
         isLoading: loadingDataPostUser,
     } = useQuery({
         queryFn: () => getPostUser(email),
-        queryKey: ["postuser"]
+        queryKey: ["postuser"],
+        staleTime: 30 * 60 * 1000
     });
 
     // logout function
