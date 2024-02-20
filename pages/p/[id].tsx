@@ -1,7 +1,6 @@
 import { HighlightUsername } from '@/components/CommentBox';
 import Header from '@/components/Header';
 import PostBox from '@/components/PostBox';
-import { Spinner } from '@/components/PostGrid';
 import { calculateTimeDifference } from '@/components/TimeSet';
 import Verified from '@/components/icon/Verified';
 import { getAllCommentPost } from '@/services/comment';
@@ -16,7 +15,7 @@ const DetailPost = () => {
 
     const router = useRouter();
     const { id }: any = router.query
-    if (!id) return null;
+    if (!id) { return null };
 
     const {
         data: postData,
@@ -28,9 +27,6 @@ const DetailPost = () => {
         queryKey: ["detailpost"],
         staleTime: 30 * 60 * 1000, //ini akan di refresh ketika sudah 30 menit
     });
-
-
-    if (!postData) return null;
 
     const queryKey = ["comments", postData?._id];
 
