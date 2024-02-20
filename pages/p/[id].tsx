@@ -34,7 +34,7 @@ const DetailPost = () => {
     const {
         data: postComments,
         refetch: refetchComments,
-        isLoading,
+        isLoading: loadingComments,
     } = useQuery({
         queryFn: () => getAllCommentPost(postData?._id),
         queryKey,
@@ -55,7 +55,7 @@ const DetailPost = () => {
                 <PostBox data={postData} refetch={() => { }} />
 
                 <div className={''}>
-                    {postComments?.length > 0 ? (
+                    {loadingComments ? <div>Loading...</div> : postComments?.length > 0 ? (
                         postComments?.filter((comment: any) => comment.parent === null).map((comment: CommentItem, i: number) => (
                             <div key={i} className={'flex flex-col gap-2 mt-3  '}>
                                 <div className="flex gap-2 relative p-4 border-b-2">
