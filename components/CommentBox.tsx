@@ -173,7 +173,7 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
 
 
 
-            <div className={'p-4 w-full flex-col mb-4'}>
+            <div className={'p-4 w-full flex-col mb-10 md:mb-2'}>
                 <h1 className={'text-xl font-semibold text-gray-600 px-1 py-4'}>Kirim Komentar</h1>
                 <form className={'w-full'} onSubmit={handlerAddComment}>
                     <div className={'comment-container w-full flex gap-2'}>
