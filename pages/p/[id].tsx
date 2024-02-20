@@ -16,6 +16,7 @@ const DetailPost = () => {
     const router = useRouter();
     const { id }: any = router.query
     if (!id) { return null };
+    const condition = true
 
     const {
         data: postData,
@@ -26,6 +27,7 @@ const DetailPost = () => {
         queryFn: () => getOnePost(id),
         queryKey: ["detailpost"],
         staleTime: 30 * 60 * 1000, //ini akan di refresh ketika sudah 30 menit
+        enabled: condition
     });
 
     const queryKey = ["comments", postData?._id];
@@ -37,6 +39,7 @@ const DetailPost = () => {
     } = useQuery({
         queryFn: () => getAllCommentPost(postData?._id),
         queryKey,
+        enabled: condition
     });
 
     const commentTimes: { [key: string]: string } = {};
