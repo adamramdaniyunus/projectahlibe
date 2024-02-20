@@ -29,6 +29,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
                 return res.json(data)
             }
+
+            if (req.query.id) {
+                const data = await Post.findById(req.query.id).populate([
+                    {
+                        path: "user",
+                        select: ["image", "name", "email", "verified"],
+                    },
+                ]);
+                if (!data) return res.status(404).json({ msg: "Postingan tidak ditemukan" });
+
+                return res.json(data);
+            }
             let search: any = req.query.search || "";
             let tags: any = req.query.tags || "all";
 
@@ -64,7 +76,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
             await post.deleteOne();
 
-            return res.json('Deleted')
+            return res.json({ msg: "Deleted" })
         }
     } catch (error) {
         console.log(error);

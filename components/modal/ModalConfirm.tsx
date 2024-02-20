@@ -2,6 +2,7 @@ import React, { SetStateAction, useEffect, useRef, useState } from "react";
 interface ModalProps {
     handleModal: () => void;
     handleDeletePost: () => void;
+    loading: boolean
 }
 
 type TagsItem = {
@@ -9,9 +10,8 @@ type TagsItem = {
 }
 
 
-const ModalConfirm: React.FC<ModalProps> = ({ handleModal, handleDeletePost }) => {
+const ModalConfirm: React.FC<ModalProps> = ({ handleModal, handleDeletePost, loading }) => {
     // loading
-    const [loading, setLoading] = useState<boolean>(false)
     const handleClickInsideModal = (e: React.MouseEvent<HTMLDivElement>) => {
         // Menghentikan propagasi ke parent element
         e.stopPropagation();
@@ -24,8 +24,8 @@ const ModalConfirm: React.FC<ModalProps> = ({ handleModal, handleDeletePost }) =
                     <div className={'flex flex-col gap-2 w-full'}>
                         <h1 className={'text-xl font-semibold text-gray-600'}>Hapus postingan?</h1>
                         <div className="flex gap-2 justify-end">
-                            <button className="px-4 py-2 bg-red-400 text-white rounded-lg" onClick={handleDeletePost}>Ya, hapus</button>
-                            <button className="px-4 py-2 bg-blue-400 text-white rounded-lg" onClick={handleModal}>Ga jadi deh</button>
+                            <button className="px-4 py-2 bg-red-700 text-white rounded-lg disabled:bg-gray-500" onClick={handleDeletePost} disabled={loading}>{loading ? "Loading.." : "Ya, Hapus"}</button>
+                            <button className="px-4 py-2 bg-primary text-white rounded-lg" onClick={handleModal}>Ga jadi deh</button>
                         </div>
                     </div>
                 </div>

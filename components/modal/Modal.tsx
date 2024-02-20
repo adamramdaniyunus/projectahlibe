@@ -6,11 +6,13 @@ import axios from 'axios'
 import { OurFileRouter } from "@/server/uploadthing";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import { createPost, deleteFile } from "@/services/post";
+import CloseIcon from "../icon/CloseIcon";
 
 interface ModalProps {
     handleModal: () => void;
     isModal: boolean;
-    refetchDataTwo: () => void;
+    refetchDataPost: () => void;
 }
 
 type TagsItem = {
@@ -18,7 +20,7 @@ type TagsItem = {
 }
 
 
-const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
+const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataPost, isModal }) => {
     // opsi tags
     const [datatags, setDataTags] = useState<TagsItem[]>([])
     // desc
@@ -42,6 +44,7 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
 
     const [disabled, setDisabled] = useState(false)
 
+    const modalRef: any = useRef(null);
 
     const [tags, setTags] = useState<string[]>([]);
 
@@ -54,7 +57,20 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
 
     useEffect(() => {
         getTags()
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (modalRef.current) {
+            modalRef.current.focus();
+        }
+    }, [isModal])
+
+    useEffect(() => {
+        // Focus on the textarea element when the value is updated
+        if (textareaRef.current && isModal) {
+            textareaRef.current?.focus();
+        }
+    }, [isModal]);
 
     // handle tags
     const handlTagsClick = (tag: string) => {
@@ -76,7 +92,16 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
         }
     };
 
+    // esc key press
+    const handleEscPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Escape' && isModal) {
+            e.preventDefault();
+            handleModal()
+        }
+    };
 
+
+    // text area
     const handleTextareaInput = () => {
         const textarea = textareaRef.current
         if (textarea) {
@@ -86,6 +111,7 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
             textarea.style.height = Math.min(textarea.scrollHeight, maxHeight) + 'px';
         }
     }
+
     const handleClickInsideModal = (e: React.MouseEvent<HTMLDivElement>) => {
         // Menghentikan propagasi ke parent element
         e.stopPropagation();
@@ -95,7 +121,7 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
         e.preventDefault()
         try {
             setLoading(true)
-            await axios.post('/api/post', {
+            await createPost({
                 user: user?.email,
                 video: video?.fileUrl,
                 desc,
@@ -104,16 +130,12 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
             })
             setLoading(false)
             toast.success("Postingan berhasil di upload")
-            setVideo(undefined);
-            setDesc('');
-            setTags([])
-            refetchDataTwo()
+            refetchDataPost()
             handleModal()
         } catch (error) {
             console.log(error);
         }
     }
-
     // get tags
 
     const getTags = async () => {
@@ -125,9 +147,20 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
         }
     }
 
+    // delete file
+    const deleteFiles = async () => {
+        try {
+            const url: any = video?.fileUrl || image?.fileUrl
+            await deleteFile(url);
+            toast.success("File dihapus!");
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
-        <div onClick={handleModal} className={`fixed z-[54] top-0 left-0 h-screen w-screen bg-black bg-opacity-40`}>
-            <div className={"flex justify-center items-center h-full"}>
+        <div onClick={handleModal} tabIndex={0} ref={modalRef} onKeyDown={handleEscPress} className={`fixed z-[54] top-0 left-0 h-screen w-screen bg-black bg-opacity-40`}>
+            <div className={"flex justify-center items-center h-full"} >
                 <div onClick={handleClickInsideModal} className={'w-[500px] modal-shadow bg-white flex justify-center p-4 rounded-lg'}>
                     <div className={'flex flex-col gap-2 w-full'}>
                         <h1 className={'text-xl font-semibold text-gray-600'}>Share klip gg kamu</h1>
@@ -154,8 +187,8 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
                                             <div
                                                 onClick={() => handleRemoveTags(tags)}
                                                 key={i}
-                                                className={'tags-button flex items-center rounded-lg cursor-pointer hover:bg-red-300 bg-blue-200 lowercase'}>
-                                                <p className={'italic font-semibold'}>#{tags}</p>
+                                                className={'tags-button flex items-center rounded-lg cursor-pointer hover:bg-red-300 bg-primary lowercase'}>
+                                                <p className={'italic font-semibold text-white'}>#{tags}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -163,9 +196,9 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
                                 <div className="flex justify-between w-full items-center">
                                     <div className="flex gap-2">
                                         {video && (
-                                            <p className="text-gray-400 text-sm">{video?.fileName}</p>
+                                            <p className="text-gray-400 text-sm flex gap-2 items-center">{video?.fileName} <span className="cursor-pointer" onClick={deleteFiles}><CloseIcon /></span></p>
                                         )}
-                                        {image && <p className="text-gray-400 text-sm">{image?.fileName}</p>}
+                                        {image && <p className="text-gray-400 text-sm flex gap-2 items-center">{image?.fileName} <span className="cursor-pointer" onClick={deleteFiles}><CloseIcon /></span></p>}
                                     </div>
                                     {video === undefined && image === undefined && <UploadButton<OurFileRouter, any>
                                         endpoint="imageUploader"
@@ -177,7 +210,7 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
                                                 }
                                                 if (ready) {
                                                     setDisabled(false);
-                                                    return <PostIcons />
+                                                    return <PostIcons color="black" />
                                                 }
                                             },
                                         }}
@@ -220,14 +253,14 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataTwo }) => {
                                     {datatags.map((hastags, i) => (
                                         <div
                                             key={i}
-                                            onClick={() => handlTagsClick(hastags.name)} className={'tags-button lowercase bg-blue-200 flex items-center rounded-lg cursor-pointer'}>
-                                            <p className={'italic font-semibold'}>#{hastags.name}</p>
+                                            onClick={() => handlTagsClick(hastags.name)} className={'tags-button lowercase bg-primary flex items-center rounded-lg cursor-pointer'}>
+                                            <p className={'italic font-semibold text-white'}>#{hastags.name}</p>
                                         </div>
                                     ))}
                                 </div>
                             </div>
                             <div className="flex justify-end w-full">
-                                <button disabled={loading || desc === "" || disabled} type="submit" className={`px-4 py-2 rounded-lg bg-blue-300 mt-2 text-white disabled:bg-slate-300 disabled:cursor-not-allowed text-sm font-semibold`}>{loading ? "Loading..." : "Upload"}</button>
+                                <button disabled={loading || desc === "" || disabled} type="submit" className={`px-4 py-2 rounded-lg bg-primary mt-2 text-white disabled:bg-slate-300 disabled:cursor-not-allowed text-sm font-semibold`}>{loading ? "Loading..." : "Upload"}</button>
                             </div>
                         </form>
                     </div>

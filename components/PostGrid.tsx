@@ -1,48 +1,30 @@
 import PostBox from "@/components/PostBox";
 import { MoonLoader } from 'react-spinners'
-
-type DataItem = {
-    _id: string;
-    desc: string;
-    tags: string[];
-    user: {
-        name: string;
-        image: string;
-        email: string;
-        verified: boolean
-    }
-    likes: string[];
-    video: string;
-    comments: string[];
-    image: string;
-
-    createdAt: string;
-}
-
 interface GridProps {
-    postDataTwo: DataItem[];
+    postData: DataItem[];
     loadingDataPostTwo: boolean;
     postUser: DataItem[];
     refetch: () => void;
     loadingDataPostUser: boolean;
-    fetchingDataTwo: boolean;
+    fetchingDataPost: boolean;
     fetchingDataUser: boolean;
 }
 
 export const Spinner = () => {
     return (
         <div className="h-screen flex justify-center">
-            <MoonLoader color="#36d7b7" size={70} className="mt-10 md:mr-80 mr-0" />
+            <MoonLoader color="#756AB6" size={70} className="mt-10 md:mr-80 mr-0" />
         </div>
     )
 }
 
 
-export default function PostGrid({ postDataTwo, loadingDataPostTwo, loadingDataPostUser, postUser, fetchingDataTwo, refetch }: GridProps) {
+export default function PostGrid({ postData, loadingDataPostTwo, loadingDataPostUser, postUser, fetchingDataPost, refetch }: GridProps) {
     // went data loading
-    if (fetchingDataTwo) {
+    if (fetchingDataPost) {
         return <Spinner />
     }
+
     if (postUser?.length > 0) {
         return (
             <div>
@@ -53,22 +35,10 @@ export default function PostGrid({ postDataTwo, loadingDataPostTwo, loadingDataP
         )
     }
 
-
-
-    // if (search?.length >= 3) {
-    //     return (
-    //         <div>
-    //             {isLoading ? <Spinner /> : data?.length > 0 ? data?.map((data: DataItem, i: number) => (
-    //                 <PostBox key={i} data={data} refetch={refetch} />
-    //             )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>}
-    //         </div>
-    //     )
-    // }
-
     return (
-        <div className={'flex flex-col mb-20'}>
-            {(loadingDataPostTwo ? <Spinner /> : postDataTwo?.length > 0 ? (
-                postDataTwo?.map((data: DataItem, i: number) => (
+        <div className={'flex p-4 md:px-6 px-1 gap-2 w-full flex-col md:mb-20 mb-20'}>
+            {(postData?.length > 0 ? (
+                postData?.map((data: DataItem, i: number) => (
                     <PostBox key={i} data={data} refetch={refetch} />
                 ))
             ) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>)}

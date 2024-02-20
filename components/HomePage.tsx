@@ -1,63 +1,66 @@
 import Header from "@/components/Header";
 import PostGrid from "@/components/PostGrid";
-import { getAllPost, getAllPostsNoSearch } from "@/services/post";
+import { getAllPostsNoSearch } from "@/services/post";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import ListTags from "./ListTags";
+import { getTags } from "@/services/tags";
+import { useSession } from "next-auth/react";
+import LoadingLogo from "./LoadingLogo";
+import BackgroundBlack from "./BackgroundBlack";
 
 export default function HomePage({ nameTags }: { nameTags: any }) {
-    // const [search, setSearchPost] = useState('');
+    const { status } = useSession()
     nameTags?.length ? nameTags : nameTags = "all"
-    // // stale time ini untuk menentukan berapa lama data akan valid
-    // const STALE_TIME = 30 * 60 * 1000 // 30 menit lamanya
-
-    // // memeriksa waktu terakhir app dibuka
-    // const lastUpdateTime: any = localStorage.getItem('timesData');
-
-    // // perhitungan waktu
-    // const currentTime = new Date().getTime();
-    // const timeElapsed = currentTime - parseInt(lastUpdateTime, 10);
-    // let staleTime = STALE_TIME
-
-    // // atur ulang waktu
-    // if (lastUpdateTime) {
-    //     staleTime = timeElapsed > STALE_TIME ? STALE_TIME : STALE_TIME - timeElapsed;
-    // }
-
-
+    const [showTags, setShowTags] = useState(false)
     // data 2 for re fetching after user didnt use search input
     const {
-        data: postsDataTwo,
-        refetch: refetchDataTwo,
-        isFetching: fetchingDataTwo,
+        data: postsData,
+        refetch: refetchDataPost,
+        isFetching: fetchingDataPost,
         isLoading: loadingDataPostTwo,
     } = useQuery({
         queryFn: () => getAllPostsNoSearch(nameTags),
-        queryKey: ["postsnosearch"],
+        queryKey: ["post"],
         staleTime: 30 * 60 * 1000, //ini akan di refresh ketika sudah 30 menit
     });
 
+    // get data tags
+    const { data: dataTags, isLoading: LoadingTags } = useQuery({
+        queryFn: () => getTags(),
+        queryKey: ["tags"]
+    })
+
+
     useEffect(() => {
-        // Memanggil refetchDataTwo hanya sekali saat nameTags berubah
+        // Memanggil refetchDataPost hanya sekali saat nameTags berubah
         if (nameTags) {
-            refetchDataTwo()
+            refetchDataPost()
             // localStorage.setItem("timesData", new Date().getTime().toString());
         }
-    }, [nameTags, refetchDataTwo]);
+    }, [nameTags, refetchDataPost]);
 
-    const [showTags, setShowTags] = useState(false)
+    // this for loading logo went data loading and user loading
+    if (loadingDataPostTwo && LoadingTags && status === "loading") {
+        return (
+            <LoadingLogo />
+        )
+    }
+
     return (
         <div>
-            <Header showTags={showTags} setShowTags={setShowTags} refetchDataTwo={refetchDataTwo} />
-            <div className={'flex gap-10 mt-20 justify-center relative h-screen'}>
-                <div className={`${showTags ? "left-0" : "-left-96"} top-0 bg-white p-4 h-screen z-50 md:z-10 transition-all absolute md:static w-1/4 md:w-1/2 md:flex justify-end md:h-2/3 md:overflow-hidden overflow-auto`}>
-                    <ListTags />
+            <Header id={""} setShowReport={() => { }} email={''} setShowTags={setShowTags} refetchDataPost={refetchDataPost} />
+            <div onClick={() => setShowTags(false)} className={'flex gap-10 mt-20 justify-center relative h-screen'}>
+                <div className={`${showTags ? "left-0" : "-left-[37rem]"} top-0 z-[55] px-2 bg-white lg:bg-none p-4 h-screen lg:z-10 transition-all fixed lg:static w-1/2 lg:w-1/2 lg:flex justify-end lg:h-2/3 lg:overflow-hidden overflow-auto`}>
+                    <ListTags dataTags={dataTags} isLoading={LoadingTags} />
                 </div>
-                <div className={'overflow-auto w-auto md:w-full h-full'}>
+                <div className={'overflow-auto w-auto lg:w-full h-full'}>
                     {/* <SkeletonPost /> */}
-                    <PostGrid refetch={refetchDataTwo} fetchingDataUser={false} fetchingDataTwo={fetchingDataTwo} loadingDataPostUser={false} postUser={[]} loadingDataPostTwo={loadingDataPostTwo} postDataTwo={postsDataTwo} />
+                    <PostGrid refetch={refetchDataPost} fetchingDataUser={false} fetchingDataPost={fetchingDataPost} loadingDataPostUser={false} postUser={[]} loadingDataPostTwo={loadingDataPostTwo} postData={postsData} />
                 </div>
             </div>
+
+            {showTags && <BackgroundBlack handleShowBar={() => setShowTags(false)} />}
         </div>
     )
 }   

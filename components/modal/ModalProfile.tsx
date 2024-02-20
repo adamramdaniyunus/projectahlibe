@@ -7,6 +7,7 @@ import Image from "next/image"
 interface ModalProps {
     handleModal: () => void;
     refetchUser: () => void;
+    isModal: boolean;
     userDta: any
 }
 
@@ -15,19 +16,16 @@ type TagsItem = {
 }
 
 
-const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta }) => {
+const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta, isModal }) => {
     // opsi tags    // desc
     const [desc, setDesc] = useState(userDta?.desc || '')
     const [name, setName] = useState(userDta?.name)
     // loading
     const [loading, setLoading] = useState<boolean>(false)
 
-
-    const [tags, setTags] = useState<string[]>([]);
-
     const { data: session } = useSession()
     const user = session?.user
-
+    const modalRef: any = useRef(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
     const handleTextareaInput = () => {
@@ -44,7 +42,7 @@ const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta 
         e.stopPropagation();
     };
 
-    const addPostHandler = async (e: any) => {
+    const updateUserHandler = async (e: any) => {
         e.preventDefault()
         try {
             setLoading(true)
@@ -62,22 +60,36 @@ const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta 
         }
     }
 
+    useEffect(() => {
+        if (modalRef.current) {
+            modalRef.current.focus();
+        }
+    }, [isModal])
+
     // went user click enter
     const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            addPostHandler(e);
+            updateUserHandler(e);
+        }
+    };
+
+    // esc key press
+    const handleEscPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Escape' && isModal) {
+            e.preventDefault();
+            handleModal()
         }
     };
 
     return (
-        <div onClick={handleModal} className={`fixed z-[54] top-0 left-0 h-screen w-screen bg-black bg-opacity-40`}>
+        <div onClick={handleModal} ref={modalRef} onKeyDown={handleEscPress} tabIndex={0} className={`fixed z-[54] top-0 left-0 h-screen w-screen bg-black bg-opacity-40`}>
             <div className={"flex justify-center items-center h-full"}>
                 <div onClick={handleClickInsideModal} className={'w-[500px] modal-shadow bg-white flex justify-center p-4 rounded-lg'}>
                     <div className={'flex flex-col gap-2 w-full'}>
                         <h1 className={'text-xl font-semibold text-gray-600'}>Update profile kamu</h1>
 
-                        <form className={'w-full'} onSubmit={addPostHandler}>
+                        <form className={'w-full'} onSubmit={updateUserHandler}>
                             <div className={'flex gap-2 border-b-2 py-1'}>
                                 <Image src={user?.image || ""} width={0} height={0} loader={() => user?.image || ""} alt="" className={'rounded-full w-6 h-6'} />
                                 <input className={'text-gray-400 font-semibod w-full outline-none'} value={name} onChange={e => setName(e.target.value)} />
@@ -93,7 +105,7 @@ const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta 
                             ></textarea>
 
                             <div className="flex justify-end w-full">
-                                <button disabled={loading} type="submit" className={`px-4 py-2 rounded-lg bg-blue-300 mt-2 text-white disabled:bg-slate-300 disabled:cursor-not-allowed text-sm font-semibold`}>{loading ? "Loading..." : "Save"}</button>
+                                <button disabled={loading} type="submit" className={`px-4 py-2 rounded-lg bg-primary mt-2 text-white disabled:bg-slate-300 disabled:cursor-not-allowed text-sm font-semibold`}>{loading ? "Loading..." : "Save"}</button>
                             </div>
                         </form>
                     </div>

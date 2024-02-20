@@ -9,6 +9,7 @@ const TagsSkeleton = () => {
             <div className='p-2 cursor-wait w-16 h-4 bg-gray-300'></div>
             <div className='p-2 cursor-wait w-12 h-4 bg-gray-300'></div>
             <div className='p-2 cursor-wait w-16 h-4 bg-gray-300'></div>
+            <div className='p-2 cursor-wait w-12 h-4 bg-gray-300'></div>
         </div>
     )
 }

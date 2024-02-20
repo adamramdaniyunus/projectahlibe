@@ -1,13 +1,11 @@
 import CloseIcon from "@/components/icon/CloseIcon";
 import React, { useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { getAllCommentPost } from "@/services/comment";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import Verified from "./icon/Verified";
+import { calculateTimeDifference } from "./TimeSet";
 
 // types
 interface CommentBoxProps {
@@ -18,70 +16,9 @@ interface CommentBoxProps {
     refetch: () => void;
 }
 
-type DataItem = {
-    _id: string;
-    desc: string;
-    tags: string[];
-    user: {
-        name: string;
-        image: string
-    }
-    likes: string[];
-    comments: string[];
-    video: string
-    image: string;
-    createdAt: string
-}
-
-type CommentItem = {
-    desc: string
-    user: {
-        name: string;
-        image: string;
-        _id: string;
-        verified: boolean;
-    }
-    createdAt: string;
-    post: string;
-    replyOnUserName: string;
-    _id: string;
-    replies: [
-        {
-            user: {
-                name: string;
-                image: string;
-                _id: string;
-                verified: boolean;
-            }
-            desc: string;
-            createdAt: string;
-            replyOnUserName: string;
-            replyOnUser: string;
-            _id: string;
-            replies: [
-                {
-                    user: {
-                        name: string;
-                        image: string;
-                        _id: string;
-                    }
-                    desc: string;
-                    createdAt: string;
-                    replyOnUserName: string;
-                    replyOnUser: string;
-                    _id: string;
-                    replies: string[];
-                }
-            ]
-        }
-    ]
-    replyOnUser: string;
-    parent: string;
-}
-
 
 // this for hightlight username
-const HighlightUsername = ({ text, username }: { text: any, username: any }) => {
+export const HighlightUsername = ({ text, username }: { text: any, username: any }) => {
     const parts = text.split(username);
 
 
@@ -112,10 +49,10 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
 
     useEffect(() => {
         // Focus on the textarea element when the value is updated
-        if (textareaRef.current) {
-            textareaRef.current.focus();
+        if (textareaRef.current && showBar || desc !== '') {
+            textareaRef.current?.focus();
         }
-    }, [desc]);
+    }, [showBar, desc]);
     const handleTextareaInput = () => {
         const textarea = textareaRef.current
         if (textarea) {
@@ -158,29 +95,6 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
         }
     }
 
-    const calculateTimeDifference = (createdAt: any) => {
-        const currentDate: Date = new Date();
-        const createdDate: Date = new Date(createdAt);
-        const timeDifference: number = currentDate.getTime() - createdDate.getTime();
-        const seconds = Math.floor(timeDifference / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
-        const months = Math.floor(days / 30);
-
-        if (months > 0) {
-            return `${months} bulan yang lalu`;
-        } else if (days > 0) {
-            return `${days} hari yang lalu`;
-        } else if (hours > 0) {
-            return `${hours} jam yang lalu`;
-        } else if (minutes > 0) {
-            return `${minutes} menit yang lalu`;
-        } else {
-            return 'Baru saja';
-        }
-    };
-
     const commentTimes: { [key: string]: string } = {};
     // mapping times
     comments?.forEach((comment: CommentItem) => {
@@ -188,10 +102,18 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
     });
 
 
+    // this for enter press
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handlerAddComment(e);
+        }
+    };
+
 
     return (
         <div
-            className={`fixed flex flex-col justify-between z-[55] top-0 right-0 h-screen rounded-md transition-all p-3 bg-white ${showBar ? "left-0 md:left-2/3" : "left-[100%]"}`}>
+            className={`fixed flex flex-col justify-between z-[55] top-0 right-0 h-screen rounded-md transition-all p-3 bg-white ${showBar ? "left-0 lg:left-2/3" : "left-[100%]"}`}>
             <div className={'flex p-4 justify-between border-b-2 border-black'}>
                 <h1 className={'text-2xl font-semibold'}>BroComment</h1>
                 <button onClick={handleShowBar}><CloseIcon /></button>
@@ -251,14 +173,14 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
 
 
 
-            <div className={'p-4 w-full flex-col mb-10'}>
+            <div className={'p-4 w-full flex-col mb-4'}>
                 <h1 className={'text-xl font-semibold text-gray-600 px-1 py-4'}>Kirim Komentar</h1>
                 <form className={'w-full'} onSubmit={handlerAddComment}>
                     <div className={'comment-container w-full flex gap-2'}>
                         <textarea
                             ref={textareaRef}
                             value={desc}
-                            autoFocus={true}
+                            onKeyDown={handleKeyPress}
                             onChange={e => setDesc(e.target.value)}
                             className={'mb-10 w-full bg-red-400'}
                             onInput={handleTextareaInput}
