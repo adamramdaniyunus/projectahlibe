@@ -15,13 +15,7 @@ const DetailPost = () => {
 
     const router = useRouter();
     const { id }: any = router.query
-    const [postId, setPostId] = useState('');
-    // if (!id) return
-    useEffect(() => {
-        if (id) {
-            setPostId(id);
-        }
-    }, [id]);
+    if (!id) return
 
     const {
         data: postData,
@@ -29,9 +23,10 @@ const DetailPost = () => {
         isFetching: fetchingDataPost,
         isLoading: loadingPost,
     } = useQuery({
-        queryFn: () => getOnePost(postId),
-        queryKey: ["detailpost"],
-        staleTime: 10000, //ini akan di refresh ketika sudah 30 detik
+        queryFn: () => getOnePost(id),
+        queryKey: ["detailpost", id],
+        staleTime: 30 * 60 * 1000, //ini akan di refresh ketika sudah 30 dmnit
+        enabled: !!id
     });
 
     useEffect(() => {
@@ -56,11 +51,11 @@ const DetailPost = () => {
     });
 
     return (
-        <div className='flex justify-center w-full overflow-auto mt-16 h-screen'>
+        <div className='flex justify-center w-full mt-16 h-screen overflow-auto'>
             <Header id={id} setShowReport={() => { }} email={''} setShowTags={() => { }} refetchDataPost={() => { }} />
             {fetchingDataPost ? <div className="h-screen flex justify-center">
                 <MoonLoader color="#756AB6" size={70} className="mt-20 md:mr-100 mr-0" />
-            </div> : <div className='mt-4 flex flex-col'>
+            </div> : <div className='mt-4 flex flex-col h-full overflow-auto mb-0 md:mb-[4.5rem]'>
                 <PostBox data={postData} refetch={() => { }} />
 
                 <div className={''}>
