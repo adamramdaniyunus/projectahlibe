@@ -8,15 +8,20 @@ import { getOnePost } from '@/services/post';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { MoonLoader } from 'react-spinners';
 
 const DetailPost = () => {
 
     const router = useRouter();
     const { id }: any = router.query
-    if (!id) { return null };
-    const condition = true
+    const [postId, setPostId] = useState('');
+    // if (!id) return
+    useEffect(() => {
+        if (id) {
+            setPostId(id);
+        }
+    }, [id]);
 
     const {
         data: postData,
@@ -24,11 +29,14 @@ const DetailPost = () => {
         isFetching: fetchingDataPost,
         isLoading: loadingPost,
     } = useQuery({
-        queryFn: () => getOnePost(id),
+        queryFn: () => getOnePost(postId),
         queryKey: ["detailpost"],
-        staleTime: 30 * 60 * 1000, //ini akan di refresh ketika sudah 30 menit
-        enabled: condition
+        staleTime: 10000, //ini akan di refresh ketika sudah 30 detik
     });
+
+    useEffect(() => {
+        refetchDataPost();
+    }, []);
 
     const queryKey = ["comments", postData?._id];
 
@@ -39,7 +47,6 @@ const DetailPost = () => {
     } = useQuery({
         queryFn: () => getAllCommentPost(postData?._id),
         queryKey,
-        enabled: condition
     });
 
     const commentTimes: { [key: string]: string } = {};
