@@ -114,7 +114,7 @@ export default function ProfilePage() {
                 {isModal && <ModalProfile isModal={isModal} handleModal={handleEditButton} refetchUser={refetchUserData} userDta={userDta} />}
                 <div className={'w-auto md:w-full h-full md:overflow-auto mb-20'}>
                     {/* <SkeletonPost /> */}
-                    <PostGrid fetchingDataUser={fetchingDataUser} fetchingDataPost={false} loadingDataPostTwo={loadingDataPostUser} loadingDataPostUser={loadingDataPostUser} refetch={refetchDataPostUser} postUser={postUser} postData={[]} />
+                    <PostGrid fetchingDataPost={fetchingDataUser} loadingDataPostTwo={loadingDataPostUser} loadingDataPostUser={loadingDataPostUser} refetch={refetchDataPostUser} postUser={postUser} postData={[]} />
                 </div>
 
                 {userDta?.email === admin && userInfo?.user.email === admin && (

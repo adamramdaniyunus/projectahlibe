@@ -7,7 +7,6 @@ interface GridProps {
     refetch: () => void;
     loadingDataPostUser: boolean;
     fetchingDataPost: boolean;
-    fetchingDataUser: boolean;
 }
 
 export const Spinner = () => {

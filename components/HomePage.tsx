@@ -56,7 +56,7 @@ export default function HomePage({ nameTags }: { nameTags: any }) {
                 </div>
                 <div className={'overflow-auto w-auto lg:w-full h-full'}>
                     {/* <SkeletonPost /> */}
-                    <PostGrid refetch={refetchDataPost} fetchingDataUser={false} fetchingDataPost={fetchingDataPost} loadingDataPostUser={false} postUser={[]} loadingDataPostTwo={loadingDataPostTwo} postData={postsData} />
+                    <PostGrid refetch={refetchDataPost} fetchingDataPost={fetchingDataPost} loadingDataPostUser={false} postUser={[]} loadingDataPostTwo={loadingDataPostTwo} postData={postsData} />
                 </div>
             </div>
 
