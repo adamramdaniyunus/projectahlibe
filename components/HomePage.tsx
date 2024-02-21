@@ -41,7 +41,7 @@ export default function HomePage({ nameTags }: { nameTags: any }) {
     }, [nameTags, refetchDataPost]);
 
     // this for loading logo went data loading and user loading
-    if (loadingDataPostTwo && LoadingTags && status === "loading") {
+    if (loadingDataPostTwo && LoadingTags || status === "loading") {
         return (
             <LoadingLogo />
         )
