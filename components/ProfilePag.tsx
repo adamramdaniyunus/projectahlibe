@@ -66,7 +66,7 @@ export default function ProfilePage() {
         isLoading: loadingDataPostUser,
     } = useQuery({
         queryFn: () => getPostUser(email),
-        queryKey: ["postuser"],
+        queryKey: ["postuser", email],
         staleTime: 30 * 60 * 1000
     });
 
@@ -113,7 +113,7 @@ export default function ProfilePage() {
                 </div>
 
                 {isModal && <ModalProfile isModal={isModal} handleModal={handleEditButton} refetchUser={refetchUserData} userDta={userDta} />}
-                <div className={'w-auto md:w-full h-full md:overflow-auto mb-20'}>
+                <div className={'w-auto md:w-full h-full md:overflow-auto'}>
                     {/* <SkeletonPost /> */}
                     <PostGrid fetchingDataPost={fetchingDataUser} loadingDataPostTwo={loadingDataPostUser} loadingDataPostUser={loadingDataPostUser} refetch={refetchDataPostUser} postUser={postUser} postData={[]} />
                 </div>

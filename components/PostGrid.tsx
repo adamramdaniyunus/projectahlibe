@@ -26,7 +26,7 @@ export default function PostGrid({ postData, loadingDataPostTwo, loadingDataPost
 
     if (postUser?.length > 0) {
         return (
-            <div>
+            <div className="flex p-4 md:px-6 px-1 w-full flex-col mb-20 gap-10">
                 {loadingDataPostUser ? <Spinner /> : postUser?.length > 0 ? postUser?.map((data: DataItem, i: number) => (
                     <PostBox key={i} data={data} refetch={refetch} />
                 )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>}
@@ -35,7 +35,7 @@ export default function PostGrid({ postData, loadingDataPostTwo, loadingDataPost
     }
 
     return (
-        <div className={'flex p-4 md:px-6 px-1 gap-2 w-full flex-col md:mb-20 mb-20'}>
+        <div className={'flex p-4 md:px-6 px-1 w-full flex-col mb-20'}>
             {(postData?.length > 0 ? (
                 postData?.map((data: DataItem, i: number) => (
                     <PostBox key={i} data={data} refetch={refetch} />
