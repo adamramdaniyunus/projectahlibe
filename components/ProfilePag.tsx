@@ -85,19 +85,19 @@ export default function ProfilePage() {
                             <Image className="rounded-t-xl" src={background} height={500} width={500} alt="background" />
                         </div>
                         <div className="card__avatar">
-                            {fetchingUser ? <div className="rounded-full w-[100px] h-[100px] bg-gray-400"></div>
+                            {loadingDataUser ? <div className="rounded-full w-[100px] h-[100px] bg-gray-400"></div>
                                 :
                                 <Image loader={() => userDta?.image} src={userDta?.image || ""} alt="profile" height={0} width={0} />
                             }
                         </div>
 
-                        {fetchingUser ? <div className="w-[200px] bg-gray-200 h-4"></div> :
+                        {loadingDataUser ? <div className="w-[200px] bg-gray-200 h-4"></div> :
                             userDta?.email === userInfo?.user.email && <button className="absolute right-2 bottom-2" onClick={handleEditButton}>
                                 <Pencil />
                             </button>
                         }
                         <div className="flex relative">
-                            {fetchingUser ? <div className="w-[100px] bg-gray-200 h-4"></div> :
+                            {loadingDataUser ? <div className="w-[100px] bg-gray-200 h-4"></div> :
                                 <div className="relative w-full font-semibold flex">
                                     {userDta?.name}{userDta?.verified && <span className="absolute -right-4"><Verified /></span>}
                                 </div>}
