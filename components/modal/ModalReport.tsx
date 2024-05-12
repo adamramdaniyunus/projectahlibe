@@ -1,13 +1,7 @@
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import React, {  useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import PostIcons from "@/components/icon/PostIcons";
-import { UploadButton } from "@uploadthing/react";
-import axios from 'axios'
-import { OurFileRouter } from "@/server/uploadthing";
 import toast from "react-hot-toast";
 import Image from "next/image";
-import { createPost, deleteFile } from "@/services/post";
-import CloseIcon from "../icon/CloseIcon";
 import { sendReport } from "@/services/report";
 
 interface ModalProps {
@@ -100,22 +94,23 @@ const ModalReport: React.FC<ModalProps> = ({ handleShowReport, report, data }) =
     return (
         <div onClick={handleShowReport} tabIndex={0} ref={modalRef} onKeyDown={handleEscPress} className={`fixed z-[54] top-0 left-0 h-screen w-screen bg-black bg-opacity-40`}>
             <div className={"flex justify-center items-center h-full"} >
-                <div onClick={handleClickInsideModal} className={'w-[500px] modal-shadow bg-white flex justify-center p-4 rounded-lg'}>
+                <div onClick={handleClickInsideModal} className={'w-[500px] modal-shadow bg-primary flex justify-center p-4 rounded-lg'}>
                     <div className={'flex flex-col gap-2 w-full'}>
-                        <h1 className={'text-xl font-semibold text-gray-600'}>Kenapa postingan ini?</h1>
+                        <h1 className={'text-xl font-semibold text-gray-500'}>Kenapa postingan ini?</h1>
 
                         <form className={'w-full'} onSubmit={handleSendReport}>
                             <div className={'flex gap-2 border-b-2 py-1'}>
                                 <Image src={user?.image || ""} alt="profile" loader={() => user?.image || ""} width={0} height={0} className={'rounded-full w-6 h-6'} />
-                                <p className={'text-gray-400 font-semibold'}>{user?.name}</p>
+                                <p className={'text-white font-semibold bg-primary'}>{user?.name}</p>
                             </div>
                             <textarea
                                 ref={textareaRef}
                                 value={desc}
                                 onKeyDown={handleKeyPress}
                                 onChange={e => setDesc(e.target.value)}
-                                className={'post-input mt-2 w-full p-2 resize-none'}
+                                className={'post-input bg-primary mt-2 w-full p-2 resize-none'}
                                 onInput={handleTextareaInput}
+                                style={{color: "white"}}
                                 placeholder="Melanggar hak asasi manusia..."
                             ></textarea>
                             <div className="flex justify-end w-full">

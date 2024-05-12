@@ -23,7 +23,7 @@ export const HighlightUsername = ({ text, username }: { text: any, username: any
 
 
     return (
-        <p className={'text-lg text-gray-600'}>
+        <p className={'text-lg text-white'}>
             {parts.map((part: string, index: number) => (
                 <React.Fragment key={index}>
                     <span className="text-sm">
@@ -46,6 +46,7 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
     const [toUser, setReplyOnUser] = useState('')
     const [userId, setUserId] = useState('')
     const [sendingComment, setLoading] = useState<boolean>(false)
+    const [showReply, setShowReply] = useState(false);
 
     useEffect(() => {
         // Focus on the textarea element when the value is updated
@@ -113,9 +114,9 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
 
     return (
         <div
-            className={`fixed flex flex-col justify-between z-[55] top-0 right-0 h-screen rounded-md transition-all p-3 bg-white ${showBar ? "left-0 lg:left-2/3" : "left-[100%]"}`}>
-            <div className={'flex p-4 justify-between border-b-2 border-black'}>
-                <h1 className={'text-2xl font-semibold'}>BroComment</h1>
+            className={`fixed flex flex-col justify-between z-[55] top-0 right-0 h-screen rounded-md transition-all p-3 bg-primary ${showBar ? "left-0 lg:left-2/3" : "left-[100%]"}`}>
+            <div className={'flex p-4 justify-between border-b-2 border-white'}>
+                <h1 className={'text-2xl font-semibold text-white'}>BroComment</h1>
                 <button onClick={handleShowBar}><CloseIcon /></button>
             </div>
 
@@ -123,37 +124,40 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
                 {comments?.length > 0 ? (
                     comments?.filter((comment) => comment.parent === null).map((comment: CommentItem, i: number) => (
                         <div key={i} className={'flex flex-col gap-2 mt-3  '}>
-                            <div className="flex gap-2 relative p-4 border-b-2">
+                            <div className="flex gap-2 relative p-4">
                                 <div className={'items-center'}>
                                     <Image src={comment?.user?.image || ""} alt="profile" height={0} width={0} loader={() => comment?.user?.image || ""} className={'h-6 w-6 mt-1 rounded-full'} />
                                 </div>
                                 <div className={'flex flex-col'}>
                                     <div className="flex gap-4">
-                                        <p className={'text-gray-600 text-sm font-semibold flex items-center'}>{comment.user?.name}{comment?.user.verified && <span className="mb-1"><Verified /></span>}
+                                        <p className={'text-white text-sm font-semibold flex items-center'}>{comment.user?.name}{comment?.user.verified && <span className="mb-1"><Verified /></span>}
                                         </p>
                                         <span
-                                            className={'text-gray-600 font-semibold text-xs'}>{commentTimes[comment?._id]}
+                                            className={'text-white font-semibold text-xs'}>{commentTimes[comment?._id]}
                                         </span>
                                     </div>
                                     <HighlightUsername text={comment?.desc} username={comment?.replyOnUserName} />
-                                </div>
+                                </div   >
 
                                 <button onClick={() => handleComment(comment.user.name, comment?._id, comment?.user._id)} className="absolute right-20 text-gray-500 text-sm font-bold mt-10 md:mt-2 bottom-0">Balas</button>
                             </div>
-                            {comment.replies.length > 0 && (
+                            {comment.replies.length > 0 && !showReply && <p className={'text-sm text-gray-500 flex justify-start px-6 cursor-pointer'} onClick={()=>{
+                                setShowReply(prev =>!prev)
+                            }}>Show reply</p>}
+                            {showReply && comment.replies.length > 0 && (
                                 <div>
                                     {comment.replies.map((replyComment, j: number) => (
-                                        <div key={j} className="flex border-l-2 flex-col gap-2 ml-10 p-4 ">
-                                            <div className="flex gap-2 p-4 relative border-b-2">
+                                        <div key={j} className="flex border-l-2 flex-col gap-2 ml-8 p-2 ">
+                                            <div className="flex gap-2 p-4 relative">
                                                 <div className={'items-center'}>
                                                     <Image src={replyComment?.user?.image || ""} alt="profile" height={0} width={0} loader={() => replyComment?.user?.image || ""} className={'h-6 w-6 mt-1 rounded-full'} />
                                                 </div>
                                                 <div className={'flex flex-col'}>
                                                     <div className="flex gap-4">
-                                                        <p className={'text-gray-600 text-sm font-semibold flex items-center'}>{replyComment.user?.name}{replyComment?.user.verified && <span className="mb-1"><Verified /></span>}
+                                                        <p className={'text-white text-sm font-semibold flex items-center'}>{replyComment.user?.name}{replyComment?.user.verified && <span className="mb-1"><Verified /></span>}
                                                         </p>
                                                         <span
-                                                            className={'text-gray-600 font-semibold text-xs'}>{commentTimes[replyComment?._id]}
+                                                            className={'text-white font-semibold text-xs'}>{commentTimes[replyComment?._id]}
                                                         </span>
                                                     </div>
                                                     <HighlightUsername text={replyComment?.desc} username={replyComment?.replyOnUserName} />
@@ -165,16 +169,19 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
                                 </div>
                             )}
 
+                            {comment.replies.length>0 && showReply && <p className={'text-sm text-gray-500 px-6 cursor-pointer'} onClick={()=>{
+                                setShowReply(false)
+                            }}>Hide reply</p>}
 
                         </div>
                     ))
-                ) : <div className="w-full flex justify-center p-4">Belum ada komentar</div>}
+                ) : <div className="w-full flex justify-center p-4 text-white">Belum ada komentar</div>}
             </div>
 
 
 
             <div className={'p-4 w-full flex-col mb-10 md:mb-2'}>
-                <h1 className={'text-xl font-semibold text-gray-600 px-1 py-4'}>Kirim Komentar</h1>
+                <h1 className={'text-xl font-semibold text-gray-600 px-1 py-4 text-gray-400'}>Kirim Komentar</h1>
                 <form className={'w-full'} onSubmit={handlerAddComment}>
                     <div className={'comment-container w-full flex gap-2'}>
                         <textarea
@@ -182,9 +189,10 @@ const CommentBox: React.FC<CommentBoxProps> = ({ handleShowBar, showBar, data, c
                             value={desc}
                             onKeyDown={handleKeyPress}
                             onChange={e => setDesc(e.target.value)}
-                            className={'mb-10 w-full bg-red-400'}
+                            className={'mb-10 w-full max-h-[50px] text-white'}
                             onInput={handleTextareaInput}
                             placeholder="Good Game.."
+                            style={{ color: 'white' }}
                         ></textarea>
                         {/* <input type={"file"} className={'hidden'} id={'sticker'} />
                         <label htmlFor={'sticker'} className={'cursor-pointer p-4 flex items-center'}>

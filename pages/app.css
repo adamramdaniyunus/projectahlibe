@@ -228,12 +228,12 @@
 
 .card__img img {
     height: 100%;
-    border-radius: 20px 20px 0 0;
+    border-radius: 10px 10px 0 0;
 }
 
 .card__avatar {
     /* position: absolute; */
-    width: 114px;
+    /*width: 114px;*/
     height: 114px;
     margin-top: -80px;
     background: var(--bg-color);
@@ -271,7 +271,7 @@
     border-radius: 4px;
     font-weight: 700;
     font-size: 11px;
-    color: var(--main-color);
+    color:red;
     background: var(--bg-color);
     text-transform: uppercase;
     transition: all 0.3s;

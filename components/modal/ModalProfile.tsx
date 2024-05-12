@@ -85,22 +85,23 @@ const ModalProfile: React.FC<ModalProps> = ({ handleModal, refetchUser, userDta,
     return (
         <div onClick={handleModal} ref={modalRef} onKeyDown={handleEscPress} tabIndex={0} className={`fixed z-[54] top-0 left-0 h-screen w-screen bg-black bg-opacity-40`}>
             <div className={"flex justify-center items-center h-full"}>
-                <div onClick={handleClickInsideModal} className={'w-[500px] modal-shadow bg-white flex justify-center p-4 rounded-lg'}>
+                <div onClick={handleClickInsideModal} className={'w-[500px] modal-shadow bg-primary flex justify-center p-4 rounded-lg'}>
                     <div className={'flex flex-col gap-2 w-full'}>
-                        <h1 className={'text-xl font-semibold text-gray-600'}>Update profile kamu</h1>
+                        <h1 className={'text-xl font-semibold text-gray-500'}>Update profile kamu</h1>
 
                         <form className={'w-full'} onSubmit={updateUserHandler}>
                             <div className={'flex gap-2 border-b-2 py-1'}>
                                 <Image src={user?.image || ""} width={0} height={0} loader={() => user?.image || ""} alt="" className={'rounded-full w-6 h-6'} />
-                                <input className={'text-gray-400 font-semibod w-full outline-none'} value={name} onChange={e => setName(e.target.value)} />
+                                <input className={'text-white font-semibod bg-primary w-full outline-none'} value={name} onChange={e => setName(e.target.value)} />
                             </div>
                             <textarea
                                 ref={textareaRef}
                                 value={desc}
                                 onKeyDown={handleKeyPress}
                                 onChange={e => setDesc(e.target.value)}
-                                className={'post-input mt-2 w-full p-2 resize-none'}
+                                className={'post-input mt-2 w-full p-2 resize-none bg-primary'}
                                 onInput={handleTextareaInput}
+                                style={{ color: 'white' }}
                                 placeholder="Description"
                             ></textarea>
 

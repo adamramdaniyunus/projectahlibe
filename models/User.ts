@@ -9,7 +9,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    images: {
+    image: {
         type: String
     },
     verified: {
@@ -17,7 +17,6 @@ const userSchema = new Schema({
         default: false
     },
     desc: String,
-    background: String
 }, {
     timestamps: true,
 });

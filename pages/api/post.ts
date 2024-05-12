@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 const data = await Post.find({ user: userPosting?._id }).populate([
                     {
                         path: "user",
-                        select: ["image", "name", "email"],
+                        select: ["image", "name", "email", "verified"],
                     },
                 ]).sort({ createdAt: -1 });
 

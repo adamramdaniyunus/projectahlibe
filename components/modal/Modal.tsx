@@ -210,7 +210,7 @@ const Modal: React.FC<ModalProps> = ({ handleModal, refetchDataPost, isModal }) 
                                                 }
                                                 if (ready) {
                                                     setDisabled(false);
-                                                    return <PostIcons color="black" />
+                                                    return <PostIcons color={false} />
                                                 }
                                             },
                                         }}

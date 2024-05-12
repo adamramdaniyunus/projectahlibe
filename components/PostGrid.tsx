@@ -1,46 +1,51 @@
 import PostBox from "@/components/PostBox";
 import { MoonLoader } from 'react-spinners'
+import SkeletonPost from "@/components/SkeletonPost";
 interface GridProps {
-    postData: DataItem[];
-    loadingDataPostTwo: boolean;
-    postUser: DataItem[];
+    data: DataItem[];
+    loading: boolean;
     refetch: () => void;
-    loadingDataPostUser: boolean;
     fetchingDataPost: boolean;
 }
 
 export const Spinner = () => {
     return (
-        <div className="h-screen flex justify-center">
-            <MoonLoader color="#756AB6" size={70} className="mt-10 md:mr-80 mr-0" />
+        <div className="lg:ml-[20%]  flex lg:justify-center justify-start w-screen">
+            <MoonLoader color="#756AB6" size={70} className="mt-10 md:mr-80 mr-0 ml-40 md:ml-0" />
         </div>
     )
 }
 
 
-export default function PostGrid({ postData, loadingDataPostTwo, loadingDataPostUser, postUser, fetchingDataPost, refetch }: GridProps) {
+export default function PostGrid({ data, loading, fetchingDataPost, refetch }: GridProps) {
     // went data loading
     if (fetchingDataPost) {
         return <Spinner />
     }
 
-    if (postUser?.length > 0) {
+    if(loading) {
         return (
-            <div className="flex p-4 md:px-6 px-1 w-full flex-col mb-20 gap-10">
-                {loadingDataPostUser ? <Spinner /> : postUser?.length > 0 ? postUser?.map((data: DataItem, i: number) => (
-                    <PostBox key={i} data={data} refetch={refetch} />
-                )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>}
-            </div>
+           <SkeletonPost/>
         )
     }
 
+    // if (postUser?.length > 0) {
+    //     return (
+    //         <div className="flex p-4 md:px-0 px-1 w-full flex-col mb-20 gap-10 justify-center">
+    //         {postUser?.length > 0 ? postUser?.map((data: DataItem, i: number) => (
+    //                 <PostBox key={i} data={data} refetch={refetch} />
+    //             )) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>}
+    //         </div>
+    //     )
+    // }
+
     return (
-        <div className={'flex p-4 md:px-6 px-1 w-full flex-col mb-20'}>
-            {(postData?.length > 0 ? (
-                postData?.map((data: DataItem, i: number) => (
+        <div className={'flex p-4 md:px-0 px-1 w-full flex-col mb-20 gap-5 justify-center'}>
+            {(data?.length > 0 ? (
+                data?.map((data: DataItem, i: number) => (
                     <PostBox key={i} data={data} refetch={refetch} />
                 ))
-            ) : <h1 className="text-xl font-semibold h-32  flex items-center text-gray-600">Belum ada postingan</h1>)}
+            ) : <h1 className="text-xl font-semibold h-32  flex items-center text-white lg:ml-[20%] ml-0  justify-center lg:w-auto px-4 w-full">Belum ada postingan</h1>)}
         </div>
     );
 }
