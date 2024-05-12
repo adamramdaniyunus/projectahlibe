@@ -83,29 +83,3 @@ type ReportData = {
         video: string;
     }
 }
-
-
-type User = {
-    name: string;
-    desc: string;
-    image: string
-}
-
-type TagsItem = {
-    name: string;
-}
-
-
-type VideoState = {
-    fileUrl: string;
-    fileKey: string;
-    fileName: string;
-};
-
-type ImageState = {
-    fileUrl: string;
-    fileKey: string;
-    fileName: string;
-};
-
-type SetErrorType = (error: boolean) => void;
