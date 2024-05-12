@@ -4,17 +4,12 @@ import React from 'react'
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../store/reducers/userReducers';
 import LoadingLogo from '@/components/LoadingLogo';
+import MainLayout from "@/components/MainLayout";
 
 const ProfileEmail = () => {
 
     const { data: session, status } = useSession()
     const dispatch = useDispatch();
-
-    if (status === "loading") {
-        return (
-            <LoadingLogo />
-        )
-    }
 
 
     if (session) {
@@ -23,7 +18,9 @@ const ProfileEmail = () => {
     };
 
     return (
-        <ProfilePage />
+        <MainLayout refetchDataPost={()=>{}}>
+            <ProfilePage />
+        </MainLayout>
     )
 }
 

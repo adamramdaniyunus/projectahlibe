@@ -93,8 +93,8 @@ export const getOnePost = async (id = "") => {
         const response = await axios.get('/api/post?id=' + id);
         const data = response.data;
         return data;
-    } catch (error) {
-        console.log(error);
+    } catch (error:any) {
+        console.log(error)
         throw error;
     }
 }

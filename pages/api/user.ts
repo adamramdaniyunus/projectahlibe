@@ -1,6 +1,7 @@
 import mongooseConnect from "@/lib/mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import User from "@/models/User";
+import {images} from "next/dist/build/webpack/config/blocks/images";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await mongooseConnect()
@@ -17,14 +18,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 const user = await User.findById(userId);
                 return res.json(user)
             }
+
+            const user = await User.find();
+            return res.json(user);
         }
         if (req.method === "PUT") {
-            const { desc, name } = req.body;
+            const { desc, name,image } = req.body;
             const user = await User.findOne({ email: req.query.email });
 
             if (!user) return res.status(404);
 
-            await user.updateOne({ desc: desc, name: name });
+            await user.updateOne({ desc: desc, name: name,image:image });
 
             return res.json("updated")
 

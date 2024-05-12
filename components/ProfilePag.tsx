@@ -21,9 +21,7 @@ export default function ProfilePage() {
     const { email }: any = router.query
     const [isModal, setShowModal] = useState(false)
     const { userInfo } = useSelector((state: any) => state.user)
-    const background = "https://utfs.io/f/59381309-e7e4-439f-81ed-f2a170446a56-m15jgy.png"
     const dispatch: any = useDispatch()
-    const admin = "adamramdani1122@gmail.com"
     const [showReport, setShowReport] = useState(false)
     // get data user
     const {
@@ -76,34 +74,35 @@ export default function ProfilePage() {
         await signOut()
     }
     return (
-        <>
-            <Header id={""} setShowReport={setShowReport} email={email} setShowTags={() => { }} refetchDataPost={refetchDataPostUser} />
-            <div className={'flex md:gap-10 gap-2 mt-20 md:px-4 h-full md:h-screen justify-center items-center md:items-start relative flex-col md:flex-row overflow-auto md:overflow-hidden'}>
-                <div className={`py-4 md:mt-0 md:w-1/2 md:flex justify-end h-full md:h-auto`}>
-                    <div className="shadow card">
-                        <div className="card__img">
-                            <Image className="rounded-t-xl" src={background} height={500} width={500} alt="background" />
-                        </div>
-                        <div className="card__avatar">
+        <div className={''}>
+            <div className={'flex md:gap-10 gap-2 mt-40 lg:mt-20 w-full md:px-4 h-full justify-center items-center relative flex-col'}>
+                <div className={`py-4 md:mt-0 w-full lg:w-[37%] relative md:flex justify-center lg:ml-[13%] ml-0`}>
+                    <div className="border-b-2 w-full">
+                        <div className="card__avatar w-full">
                             {loadingDataUser ? <div className="rounded-full w-[100px] h-[100px] bg-gray-400"></div>
                                 :
                                 <Image loader={() => userDta?.image} src={userDta?.image || ""} alt="profile" height={0} width={0} />
                             }
                         </div>
 
-                        {loadingDataUser ? <div className="w-[200px] bg-gray-200 h-4"></div> :
-                            userDta?.email === userInfo?.user.email && <button className="absolute right-2 bottom-2" onClick={handleEditButton}>
+                        {userDta?.email === userInfo?.user.email && <Link href={`/edit-profile/${userDta?.email}`} className="absolute right-0 bottom-10" >
                                 <Pencil />
-                            </button>
+                            </Link>
                         }
                         <div className="flex relative">
-                            {loadingDataUser ? <div className="w-[100px] bg-gray-200 h-4"></div> :
-                                <div className="relative w-full font-semibold flex">
-                                    {userDta?.name}{userDta?.verified && <span className="absolute -right-4"><Verified /></span>}
+                            {loadingDataUser ? <div className="w-full justify-center font-semibold flex">
+                                    <div className={"bg-gray-600 h-4 w-40"}>
+                                    </div>
+                                </div> :
+                                <div className="w-full justify-center font-semibold flex">
+                                    <h1 className={"relative text-white"}>
+                                        {userDta?.name}{userDta?.verified &&
+                                        <span className="absolute -right-4"><Verified/></span>}
+                                    </h1>
                                 </div>}
                         </div>
                         <div className="p-4 flex items-center justify-center">
-                            <p className="text-gray-600 text-[13px] max-w-[280px]">{userDta?.desc}</p>
+                            <p className="text-gray-500 text-sm max-w-[480px]">{userDta?.desc}</p>
                         </div>
                         {userDta?.email === userInfo?.user.email && <div className="mt-2">
                             <button type="button" className="card__btn mb-2" onClick={handleLogout}>Logout</button>
@@ -113,47 +112,13 @@ export default function ProfilePage() {
                 </div>
 
                 {isModal && <ModalProfile isModal={isModal} handleModal={handleEditButton} refetchUser={refetchUserData} userDta={userDta} />}
-                <div className={'w-auto md:w-full h-full md:overflow-auto'}>
+                <div className={'w-auto md:w-full h-full'}>
                     {/* <SkeletonPost /> */}
-                    <PostGrid fetchingDataPost={fetchingDataUser} loadingDataPostTwo={loadingDataPostUser} loadingDataPostUser={loadingDataPostUser} refetch={refetchDataPostUser} postUser={postUser} postData={[]} />
+                    <PostGrid fetchingDataPost={fetchingDataUser} loading={loadingDataPostUser}  refetch={refetchDataPostUser} data={postUser} />
                 </div>
-
-                {userDta?.email === admin && userInfo?.user.email === admin && (
-                    <div className={`${showReport ? "left-0" : "-left-[37rem]"} h-screen overflow-auto top-0 z-[55] px-2 lg:bg-none p-4 lg:z-10 transition-all fixed lg:static w-1/2 lg:w-full lg:flex flex-col justify-end bg-white`}>
-                        <div className="flex items-center py-5 px-4 border-b-2">
-                            <h1 className="text-gray-400 text-2xl">Laporan</h1>
-                        </div>
-
-                        <div className="flex flex-col gap-2 h-full p-0 md:p-4 mb-10 md:overflow-auto">
-                            {reportLoading ? <Spinner /> : reportData?.length > 0 ?
-                                reportData?.map((report: ReportData, i: number) => (
-                                    <Link href={`/p/${report?.post._id}`} key={i} className="flex gap-2 p-4 relative">
-                                        <div className={'items-center'}>
-                                            <Image src={report?.user.image} alt="profile" height={0} width={0} className={'h-6 w-6 mt-1 rounded-full'} />
-                                        </div>
-                                        <div className={'flex flex-col'}>
-                                            <div className="flex gap-4">
-                                                <p className={'text-gray-600 text-xs md:text-sm font-semibold flex items-center'}>
-                                                    {report?.user.name}
-                                                </p>
-                                            </div>
-                                            <div className={'text-gray-500 md:text-sm text-xs'}>
-                                                {report?.desc}
-                                            </div>
-                                        </div>
-                                    </Link>
-                                ))
-                                : <div>
-                                    <h1 className="text-lg font-semibold text-gray-500">
-                                        Belum ada laporan
-                                    </h1>
-                                </div>}
-                        </div>
-                    </div>
-                )}
 
                 {showReport && <BackgroundBlack handleShowBar={() => setShowReport(false)} />}
             </div>
-        </>
+        </div>
     )
 }

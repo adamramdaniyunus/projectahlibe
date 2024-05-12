@@ -6,16 +6,20 @@ import Modal from "@/components/modal/Modal";
 import { signIn, useSession } from "next-auth/react";
 import MenuIcon from "./icon/MenuIcon";
 import { useSelector } from "react-redux";
+import Image from "next/image";
+import HomeIcon from "@/components/icon/HomeIcon";
+import {useRouter} from "next/router";
+import {Input} from "@chakra-ui/react";
+import SearchIcon from "@/components/icon/SearchIcon";
 
 type Header = {
     refetchDataPost: () => void;
-    setShowTags: (e: any) => void;
-    setShowReport: (e: any) => void;
+    setShowNav: (e: any) => void;
     email: any;
     id: any;
 }
 
-export default function Header({ setShowTags, refetchDataPost, email, setShowReport, id }: Header) {
+export default function Header({ setShowNav, refetchDataPost, email, id }: Header) {
     const { userInfo } = useSelector((state: any) => state.user)
     const { data: session } = useSession();
     const user = session?.user
@@ -32,19 +36,26 @@ export default function Header({ setShowTags, refetchDataPost, email, setShowRep
 
     // handle show bar tags
     const handleShowTags = () => {
-        setShowTags((prev: any) => !prev)
+        setShowNav((prev: any) => !prev)
+        // setShowTags(true)
     }
 
 
     // handle show report bar
     const handleShowReport = () => {
-        setShowReport((prev: any) => !prev)
+        setShowNav((prev: any) => !prev)
     }
 
+    const router = useRouter();
+    const isActiveLink = (path:any) => {
+        return path === router.pathname;
+    };
+
+
     return (
-        <div ref={headerRef} className={`bg-primary z-50 fixed top-0 flex items-center left-0 w-full`}>
-            <div className={`flex items-center justify-around w-full p-4`}>
-                <nav className={`gap-x-4 relative flex items-center justify-center font-semibold`}>
+        <div ref={headerRef} className={`z-50 flex items-center w-ful fixed top-2 right-2 shadow`}>
+            <div className={`flex items-center justify-end w-full`}>
+                <nav className={`gap-x-10 relative flex items-center justify-center font-semibold bg-button2 rounded-lg p-4`}>
                     {!email && !id && <button onClick={handleShowTags} className="lg:hidden block">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
@@ -59,17 +70,24 @@ export default function Header({ setShowTags, refetchDataPost, email, setShowRep
                         <MenuIcon className="w-6 h-6" />
                     </button>)}
                     {/* <button onClick={handleClickShow}><SearchIcon /></button> */}
-                    {user ? <button onClick={handleClickModal}><PostIcons color="#FFFFDD" /></button> : (
-                        <button onClick={() => signIn('google')}><PostIcons color="#FFFFDD" /></button>
-                    )}
-                    {user ? <Link href={`/profile/` + user?.email}><ProfileIcon color="#FFFFDD" /></Link> : (
-                        <button onClick={() => signIn('google')}><ProfileIcon color="#FFFFDD" /></button>
+                    <Link href={'/'}><HomeIcon color={isActiveLink('/' || '/tags')}/></Link>
+                    {user ? <Link href={'/post'}><PostIcons color={isActiveLink('/post')}/></Link> : (
+                        <button onClick={() => signIn('google')}><PostIcons color={false} /></button>
                     )}
                     {/* {showSearch && <input value={search} onChange={handleSearch} className={"absolute input w-[300px] left-1 -bottom-16"} placeholder={"Cari postingan"} />} */}
-
+                    {user ? <Link href={`/profile/${user.email}`}>
+                        <Image
+                            src={user.image||""}
+                            alt={user.name||""}
+                            width={0} height={0}
+                            loader={() => user.image || ""}
+                            className={"w-8 h-8 rounded-full"}
+                        />
+                    </Link> : (
+                        <button onClick={() => signIn('google')} className={'font-bold uppercase text-white'}>ahalibe
+                    </button>
+                        )}
                 </nav>
-                <Link href="/" className={'font-bold uppercase text-white'}>ahalibe
-                </Link>
             </div>
 
             {isModal && <Modal isModal={isModal} handleModal={handleClickModal} refetchDataPost={refetchDataPost} />}

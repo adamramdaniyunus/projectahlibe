@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 const data = await Post.find({ user: userPosting?._id }).populate([
                     {
                         path: "user",
-                        select: ["image", "name", "email"],
+                        select: ["image", "name", "email", "verified"],
                     },
                 ]).sort({ createdAt: -1 });
 
@@ -37,7 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         select: ["image", "name", "email", "verified"],
                     },
                 ]);
-                if (!data) return res.status(404).json({ msg: "Postingan tidak ditemukan" });
+                if (!data) return res.status(404).json({ msg: "Post not found" });
 
                 return res.json(data);
             }
