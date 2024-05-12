@@ -41,7 +41,7 @@ export default function MainLayout({  children, refetchDataPost}: MainLayout) {
     return (
         <div className="bg-primary mt-0">
             <div  className={'flex gap-2 mt-4 justify-center relative'}>
-                <div className={`${showTags ? "left-0" : "-left-[37rem]"} overflow-auto lg:-left-20 lg:top-3 z-[55] px-2 lg:bg-none h-[98%] lg:z-10 top-0 bg-primary transition-all fixed lg:w-1/3 w-1/2 lg:flex justify-end`}>
+                <div className={`${showTags ? "left-0" : "-left-[37rem]"} overflow-auto lg:-left-20 lg:top-3 z-[55] px-2 lg:bg-none h-full lg:h-[98%] lg:z-10 top-0 bg-primary transition-all fixed lg:w-1/3 w-1/2 lg:flex justify-end`}>
                     <ListTags dataTags={dataTags} isLoading={LoadingTags} setShowTags={setShowTags} />
                 </div>
                 <div className={'flex flex-col w-full'}>
