@@ -83,3 +83,27 @@ type ReportData = {
         video: string;
     }
 }
+
+type UserType = {
+    name: string;
+    image: string;
+    _id: string;
+    verified: boolean;
+    desc:string
+}
+
+type VideoState = {
+    fileUrl: string
+    fileKey: string;
+    fileName: string
+}
+
+type ImageState = {
+    fileUrl: string
+    fileKey: string;
+    fileName: string
+}
+
+type TagsItem = {
+    name:string
+}

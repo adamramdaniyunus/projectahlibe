@@ -29,7 +29,7 @@ export default function UsersList() {
                         <ListItem>
                             <UserListSkeleton number={12}/>
                         </ListItem>
-                    ) : userData.map((data: User, i: number) => (
+                    ) : userData?.map((data: UserType, i: number) => (
                         <ListItem key={i}>
                             <div className='flex gap-2'>
                                 <div className='flex items-center'>
@@ -46,7 +46,7 @@ export default function UsersList() {
                                     <p className='font-semibold text-white'>
                                         {data?.name}
                                     </p>
-                                    <p className='text-text text-xs'>
+                                    <p className='text-gray-500 text-xs'>
                                         {data?.desc?.length > 50 ? data.desc.substring(0, 50) + '...' : data.desc}
                                     </p>
                                 </div>

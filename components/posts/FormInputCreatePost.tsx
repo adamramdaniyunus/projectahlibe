@@ -102,6 +102,7 @@ export default function FormInputCreatePost({setTags, setValueDesc, desc, addPos
                         ))}
                     </div>}
                 </div>
+                
 
                 <div className={'w-full mt-10'}>
                     <button type={"submit"} disabled={loading} className={'disabled:bg-gray-500 w-full bg-button px-4 py-2 text-white rounded-sm'}>

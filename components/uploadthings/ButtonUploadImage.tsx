@@ -2,8 +2,7 @@ import {UploadButton} from "@/utils/uploadthing";
 import toast from "react-hot-toast";
 import React, {Dispatch, SetStateAction} from "react";
 import Image from "next/image";
-import ReactPlayer from "react-player";
-import {useRouter} from "next/router";
+import {deleteFile} from "@/services/post";
 
 type ButtonUploadProps = {
     setVideo: Dispatch<SetStateAction<VideoState | undefined>>;
@@ -14,9 +13,9 @@ type ButtonUploadProps = {
 
 }
 
-export default function ButtonUpload({setImage, setVideo, image, video, profile}:ButtonUploadProps) {
-
+export default function ButtonUploadImage({setImage, setVideo, image, video, profile}:ButtonUploadProps) {
     if(image && !profile) {
+
         return(
             <div className={'w-full h-[300px]'}>
                 <Image src={image.fileUrl} loader={()=>image?.fileUrl} alt={"Image"} width={0} height={0}
@@ -26,21 +25,20 @@ export default function ButtonUpload({setImage, setVideo, image, video, profile}
         )
     }
 
-    if(video) {
-        return (
-            <div className={'w-full h-[300px]'}>
-                <ReactPlayer
-                    width="100%"
-                    height="100%"
-                    url={video.fileUrl}
-                    controls={true}
-                    disablePictureInPicture={true}
-                />
-            </div>
-        )
+    const deleteFiles = async () => {
+        try {
+            const url: any = video?.fileUrl
+            await deleteFile(url);
+            setVideo(undefined)
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
+    if(video) {
+        deleteFiles()
+    }
 
     return (
         <UploadButton<any>
@@ -51,7 +49,7 @@ export default function ButtonUpload({setImage, setVideo, image, video, profile}
                     if (ready) {
                         return profile.length || image ? <div
                             className={'flex justify-center items-center w-full rounded-md h-[300px]'}>
-                                <Image src={image ? image.fileUrl : profile} alt={"Profile"} height={0} width={0} className={"w-[100px] h-[100px] rounded-full"} loader={()=>image ? image.fileUrl : profile}/>
+                            <Image src={image ? image.fileUrl : profile} alt={"Profile"} height={0} width={0} className={"w-[100px] h-[100px] rounded-full"} loader={()=>image ? image.fileUrl : profile}/>
                         </div> : <div
                             className={'flex justify-center items-center w-full rounded-md h-[300px]'}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -75,13 +73,16 @@ export default function ButtonUpload({setImage, setVideo, image, video, profile}
                     };
 
                     // if user send image not video
-                    const imagesFile = [".jpg", ".png", ".jpeg", ".gif"];
+                    const videoFile = [".mp4", ".mkv", ".gif"];
                     const fileExtension = firstFile.name.substr(firstFile.name.lastIndexOf('.')).toLocaleLowerCase();
 
-                    if (imagesFile.includes(fileExtension)) {
-                        setImage(mappedFile)
+                    if (videoFile.includes(fileExtension)){
+                        (async () => {
+                            setVideo(mappedFile)
+                            toast.error("file must be a .jpg or .png")
+                        })();
                     } else {
-                        setVideo(mappedFile);
+                        setImage(mappedFile)
                     }
                 }
             }}

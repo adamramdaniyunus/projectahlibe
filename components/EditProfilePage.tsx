@@ -7,12 +7,18 @@ import {getUser} from "@/services/user";
 import {useRouter} from "next/router";
 import axios from "axios";
 import toast from "react-hot-toast";
+import {deleteFile} from "@/services/post";
 
 export default function EditProfilePage(){
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const { email }: any = router.query
     const { userInfo } = useSelector((state: any) => state.user)
+    const [video, setVideo] =  useState<{
+        fileUrl: string;
+        fileKey: string;
+        fileName: string
+    }>()
     const dispatch: any = useDispatch()
     // get data user
     const {
@@ -40,6 +46,7 @@ export default function EditProfilePage(){
                 image:profile?.fileUrl,
             })
             setLoading(false)
+            await deleteFile(userInfo?.user?.image);
             toast.success("Profile updated!")
         } catch (error) {
             console.log(error);
@@ -52,7 +59,7 @@ export default function EditProfilePage(){
             <div className={'lg:w-1/2 p-2 flex flex-col gap-4 relative w-full'}>
                 <h1 className={'md:text-2xl text-xl py-2 text-white font-bold '}>Edit profile</h1>
                 <hr/>
-                <ImageProfileChange  profile={userInfo?.user?.image} setImage={setProfile} image={profile}/>
+                <ImageProfileChange  video={video} profile={userInfo?.user?.image} setImage={setProfile} setVideo={setVideo} image={profile}/>
                 <FormInputChangeProfile updateUserHandler={updateUserHandler} loading={loading} username={username} desc={desc} setUsername={setUsername} setDesc={setDesc}/>
             </div>
         </div>

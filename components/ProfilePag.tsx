@@ -79,7 +79,7 @@ export default function ProfilePage() {
                 <div className={`py-4 md:mt-0 w-full lg:w-[37%] relative md:flex justify-center lg:ml-[13%] ml-0`}>
                     <div className="border-b-2 w-full">
                         <div className="card__avatar w-full">
-                            {loadingDataUser ? <div className="rounded-full w-[100px] h-[100px] bg-gray-400"></div>
+                            {loadingDataUser ? <div className="rounded-full w-[100px] h-[100px] bg-gray-600"></div>
                                 :
                                 <Image loader={() => userDta?.image} src={userDta?.image || ""} alt="profile" height={0} width={0} />
                             }
