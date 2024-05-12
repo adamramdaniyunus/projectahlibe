@@ -37,6 +37,7 @@ export default function MainLayout({  children, refetchDataPost}: MainLayout) {
         )
     }
 
+
     return (
         <div className="bg-primary mt-0">
             <div  className={'flex gap-2 mt-4 justify-center relative'}>

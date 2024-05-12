@@ -17,7 +17,7 @@ export default function FormInputChangeProfile({username, desc, setDesc, setUser
     // this for change input
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name =  e.target.value
-        if(name.length > 20) {
+        if(name.length >= 50) {
             toast.error("cannot be more than 50 characters")
             return
         }
@@ -39,7 +39,7 @@ export default function FormInputChangeProfile({username, desc, setDesc, setUser
                 <div className={'text-white font-semibold text-sm md:text-lg py-2 relative flex flex-col'}>
                     <h1>
                         Username
-                        <span className={'p-2 text-xs text-gray-500 italic lowercase'}>Max 20 characters</span>
+                        <span className={'p-2 text-xs text-gray-500 italic lowercase'}>Max 50 characters</span>
                     </h1>
                     <input
                         className={'w-full px-4 py-2 bg-button2 rounded-sm text-white focus:outline-none text-lg'}
@@ -47,7 +47,7 @@ export default function FormInputChangeProfile({username, desc, setDesc, setUser
                         value={username}
                         onChange={handleInputChange}
                     />
-                    <p className={'text-sm text-gray-500 absolute right-0 px-2 -bottom-3'}>{username.length}/20</p>
+                    <p className={'text-sm text-gray-500 absolute right-0 px-2 -bottom-3'}>{username.length}/50</p>
                 </div>
 
 
